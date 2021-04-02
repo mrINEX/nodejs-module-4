@@ -1,0 +1,23 @@
+{
+  "name": "nodejs-st-module-4",
+  "version": "1.0.0",
+  "description": "In-memory CRUD REST service with validation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.epam.com/uladzimir_kazak/nodejs-st-module-4.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.20.0",
+    "@typescript-eslint/parser": "^4.20.0",
+    "eslint": "^7.23.0",
+    "nodemon": "^2.0.7",
+    "typescript": "^4.2.3"
+  }
+}
