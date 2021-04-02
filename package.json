@@ -4,8 +4,8 @@
   "description": "In-memory CRUD REST service with validation",
   "main": "./dist/app.js",
   "scripts": {
-    "task-1": "nodemon ./src/app.ts",
-    "build": "tsc ./dist/app.js"
+    "start": "tsc && node ./dist/app.js",
+    "task-1": "nodemon ./src/app.ts"
   },
   "repository": {
     "type": "git",
