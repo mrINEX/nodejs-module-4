@@ -2,9 +2,9 @@
   "name": "nodejs-st-module-4",
   "version": "1.0.0",
   "description": "In-memory CRUD REST service with validation",
-  "main": "index.js",
+  "main": "./dist/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "task-1": "nodemon ./src/app.ts"
   },
   "repository": {
     "type": "git",
@@ -14,10 +14,17 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^14.14.37",
     "@typescript-eslint/eslint-plugin": "^4.20.0",
     "@typescript-eslint/parser": "^4.20.0",
     "eslint": "^7.23.0",
     "nodemon": "^2.0.7",
+    "ts-node": "^9.1.1",
     "typescript": "^4.2.3"
+  },
+  "dependencies": {
+    "@types/express": "^4.17.11",
+    "express": "^4.17.1",
+    "uuid": "^8.3.2"
   }
 }
