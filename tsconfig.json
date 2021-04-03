@@ -3,6 +3,7 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "outDir": "dist",
+    "target": "ES5",
     "baseUrl": "."
   },
 }
