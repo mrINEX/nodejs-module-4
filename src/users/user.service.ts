@@ -5,4 +5,8 @@ const create = (user: OutputUser): Promise<OutputUser> => {
   return usersRepository.createInMemory(user);
 };
 
-export { create };
+const get = (id: string): Promise<OutputUser> => {
+  return usersRepository.getFromMemory(id);
+}
+
+export { create, get };

@@ -10,6 +10,15 @@ router.route('/').post(async (req, res) => {
   const user: OutputUser = await usersService.create(
     new User({ login, password, age })
   );
+
+  res.json(User.toResponse(user));
+});
+
+router.route('/:id').get(async (req, res) => {
+  const { id } = req.params;
+
+  const user = await usersService.get(id);
+
   res.json(User.toResponse(user));
 });
 

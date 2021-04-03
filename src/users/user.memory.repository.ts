@@ -4,7 +4,12 @@ const memoryUsers: OutputUser[] = [];
 
 const createInMemory = async (user: OutputUser): Promise<OutputUser> => {
   memoryUsers.push(user);
-  return user; // will remade on get method
+  return getFromMemory(user.id);
 }
 
-export { createInMemory };
+const getFromMemory = async (id: string): Promise<OutputUser> => {
+  const [ user ] = memoryUsers.filter((user) => user.id === id);
+  return user;
+}
+
+export { createInMemory, getFromMemory };
