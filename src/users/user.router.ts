@@ -22,4 +22,12 @@ router.route('/:id').get(async (req, res) => {
   res.json(User.toResponse(user));
 });
 
+router.route('/').get(async (req, res) => {
+  const { loginSubstring, limit } = req.query;
+
+  const users = await usersService.getAll(String(loginSubstring), Number(limit));
+
+  res.json(users.map(User.toResponse));
+});
+
 export { router };

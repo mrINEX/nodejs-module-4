@@ -9,4 +9,8 @@ const get = (id: string): Promise<OutputUser> => {
   return usersRepository.getFromMemory(id);
 }
 
-export { create, get };
+const getAll = (loginSubstring?: string, limit?: number): Promise<OutputUser[]> => {
+  return usersRepository.getAllFromMemory(loginSubstring, limit);
+}
+
+export { create, get, getAll };
