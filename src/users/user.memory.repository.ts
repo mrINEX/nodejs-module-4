@@ -13,7 +13,7 @@ const getFromMemory = async (id: string): Promise<OutputUser> => {
   return user;
 }
 
-const getAllFromMemory = async (loginSubstring: string, limit: number): Promise<OutputUser[]> => {
+const getAllFromMemory = async (loginSubstring = '', limit: number = memoryUsers.length): Promise<OutputUser[]> => {
   return getAutoSuggestUsers(memoryUsers, loginSubstring, limit);
 }
 
