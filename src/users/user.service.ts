@@ -9,7 +9,7 @@ const get = (id: string): Promise<OutputUser> => {
   return usersRepository.getFromMemory(id);
 }
 
-const getAll = (loginSubstring?: string, limit?: number): Promise<OutputUser[]> => {
+const getAll = (loginSubstring: string, limit: number): Promise<OutputUser[]> => {
   return usersRepository.getAllFromMemory(loginSubstring, limit);
 }
 

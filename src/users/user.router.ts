@@ -25,7 +25,7 @@ router.route('/:id').get(async (req, res) => {
 router.route('/').get(async (req, res) => {
   const { loginSubstring, limit } = req.query;
 
-  const users = await usersService.getAll(String(loginSubstring), Number(limit));
+  const users = await usersService.getAll(loginSubstring as string, Number(limit));
 
   res.json(users.map(User.toResponse));
 });
