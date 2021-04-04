@@ -42,4 +42,15 @@ router.route('/:id').put(async (req, res) => {
   res.json(User.toResponse(user));
 });
 
+router.route('/:id').delete(async (req, res) => {
+  const { id } = req.params;
+
+  const isDeleted = await usersService.remove(id);
+
+  res.json({
+    result: isDeleted,
+    message: `User with ${id} id has ${isDeleted ? '' : 'not'} been deleted`
+  });
+})
+
 export { router };

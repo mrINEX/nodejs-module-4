@@ -17,4 +17,8 @@ const update = (id: string, property: InputUser): Promise<OutputUser> => {
   return usersRepository.updateInMemory(id, property);
 }
 
-export { create, get, getAll, update };
+const remove = (id: string): Promise<boolean> => {
+  return usersRepository.softDeleteInMemory(id);
+}
+
+export { create, get, getAll, update, remove };

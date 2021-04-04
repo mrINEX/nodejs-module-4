@@ -26,4 +26,15 @@ const updateInMemory = async (id: string, property: InputUser): Promise<OutputUs
   return getFromMemory(id);
 }
 
-export { createInMemory, getFromMemory, getAllFromMemory, updateInMemory };
+const softDeleteInMemory = async (id: string): Promise<boolean> => {
+  let isSoftDeleted = false;
+  memoryUsers.forEach((userInMemory) => {
+    if (id === userInMemory.id) {
+      Object.assign(userInMemory, { isDeleted: true });
+      isSoftDeleted = userInMemory.isDeleted;
+    }
+  });
+  return isSoftDeleted;
+}
+
+export { createInMemory, getFromMemory, getAllFromMemory, updateInMemory, softDeleteInMemory };
