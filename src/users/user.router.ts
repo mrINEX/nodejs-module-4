@@ -11,7 +11,11 @@ router.route('/').post(async (req, res) => {
     new User({ login, password, age })
   );
 
-  res.json(User.toResponse(user));
+  if (user) {
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(403);
+  }
 });
 
 router.route('/:id').get(async (req, res) => {
@@ -19,7 +23,11 @@ router.route('/:id').get(async (req, res) => {
 
   const user = await usersService.get(id);
 
-  res.json(User.toResponse(user));
+  if (user) {
+    res.json(User.toResponse(user));
+  } else {
+    res.sendStatus(404);
+  }
 });
 
 router.route('/').get(async (req, res) => {
@@ -37,9 +45,13 @@ router.route('/:id').put(async (req, res) => {
   const { login, password, age } = req.body;
   const { id } = req.params;
 
-  const user = await usersService.update(id, { login, password, age });
+  const isUpdated = await usersService.update(id, { login, password, age });
 
-  res.json(User.toResponse(user));
+  if (isUpdated) {
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(404);
+  }
 });
 
 router.route('/:id').delete(async (req, res) => {
@@ -47,10 +59,11 @@ router.route('/:id').delete(async (req, res) => {
 
   const isDeleted = await usersService.remove(id);
 
-  res.json({
-    result: isDeleted,
-    message: `User with ${id} id has${isDeleted ? '' : ' not'} been deleted`
-  });
+  if (isDeleted) {
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(404);
+  }
 })
 
 export { router };

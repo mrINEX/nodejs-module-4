@@ -17,13 +17,15 @@ const getAllFromMemory = async (loginSubstring = '', limit: number = memoryUsers
   return getAutoSuggestUsers(memoryUsers, loginSubstring, limit);
 }
 
-const updateInMemory = async (id: string, property: InputUser): Promise<OutputUser> => {
+const updateInMemory = async (id: string, property: InputUser): Promise<boolean> => {
+  let isUpdated = false;
   memoryUsers.forEach((userInMemory) => {
     if (id === userInMemory.id) {
       Object.assign(userInMemory, property);
+      isUpdated = true;
     }
   });
-  return getFromMemory(id);
+  return isUpdated;
 }
 
 const softDeleteInMemory = async (id: string): Promise<boolean> => {
