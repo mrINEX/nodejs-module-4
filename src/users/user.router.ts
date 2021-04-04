@@ -49,7 +49,7 @@ router.route('/:id').delete(async (req, res) => {
 
   res.json({
     result: isDeleted,
-    message: `User with ${id} id has ${isDeleted ? '' : 'not'} been deleted`
+    message: `User with ${id} id has${isDeleted ? '' : ' not'} been deleted`
   });
 })
 
