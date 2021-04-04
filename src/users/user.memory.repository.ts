@@ -1,4 +1,4 @@
-import { OutputUser } from './user.model';
+import { OutputUser, InputUser } from './user.model';
 import getAutoSuggestUsers from '../utils/getAutoSuggestUsers';
 
 const memoryUsers: OutputUser[] = [];
@@ -17,4 +17,13 @@ const getAllFromMemory = async (loginSubstring = '', limit: number = memoryUsers
   return getAutoSuggestUsers(memoryUsers, loginSubstring, limit);
 }
 
-export { createInMemory, getFromMemory, getAllFromMemory };
+const updateInMemory = async (id: string, property: InputUser): Promise<OutputUser> => {
+  memoryUsers.forEach((userInMemory) => {
+    if (id === userInMemory.id) {
+      Object.assign(userInMemory, property);
+    }
+  });
+  return getFromMemory(id);
+}
+
+export { createInMemory, getFromMemory, getAllFromMemory, updateInMemory };

@@ -33,4 +33,13 @@ router.route('/').get(async (req, res) => {
   res.json(users.map(User.toResponse));
 });
 
+router.route('/:id').put(async (req, res) => {
+  const { login, password, age } = req.body;
+  const { id } = req.params;
+
+  const user = await usersService.update(id, { login, password, age });
+
+  res.json(User.toResponse(user));
+});
+
 export { router };

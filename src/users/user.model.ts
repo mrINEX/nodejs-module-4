@@ -43,4 +43,4 @@ class User implements OutputUser {
   }
 }
 
-export { User, OutputUser };
+export { User, OutputUser, InputUser };

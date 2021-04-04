@@ -1,5 +1,5 @@
 import * as usersRepository from './user.memory.repository';
-import { OutputUser } from './user.model';
+import { OutputUser, InputUser } from './user.model';
 
 const create = (user: OutputUser): Promise<OutputUser> => {
   return usersRepository.createInMemory(user);
@@ -13,4 +13,8 @@ const getAll = (loginSubstring: string, limit: number): Promise<OutputUser[]> =>
   return usersRepository.getAllFromMemory(loginSubstring, limit);
 }
 
-export { create, get, getAll };
+const update = (id: string, property: InputUser): Promise<OutputUser> => {
+  return usersRepository.updateInMemory(id, property);
+}
+
+export { create, get, getAll, update };
