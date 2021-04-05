@@ -1,11 +1,24 @@
-import { OutputUser, InputUser } from './user.model';
+import { OutputUser, InputUser, User } from './user.model';
 import getAutoSuggestUsers from '../utils/getAutoSuggestUsers';
+import Joi from 'joi';
+
+const schemaInputUser = Joi.object({
+  login: Joi.string().required(),
+  password: Joi.string().pattern(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/).required(),
+  age: Joi.number().min(3).max(130).required(),
+});
 
 const memoryUsers: OutputUser[] = [];
 
-const createInMemory = async (user: OutputUser): Promise<OutputUser | undefined> => {
-  memoryUsers.push(user);
-  return getFromMemory(user.id);
+const createInMemory = async (properties: InputUser): Promise<{ isCreate: boolean, message?: string}> => {
+  try {
+    const value = await schemaInputUser.validateAsync(properties);
+    memoryUsers.push(new User(value));
+    return { isCreate: true };
+  } catch (err) {
+    const [details] = err.details;
+    return { isCreate: false, message: details.message };
+  }
 };
 
 const getFromMemory = async (id: string): Promise<OutputUser | undefined> => {

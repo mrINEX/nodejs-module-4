@@ -7,14 +7,14 @@ const router = Router();
 router.route('/').post(async (req, res) => {
   const { login, password, age } = req.body;
 
-  const user: OutputUser | undefined = await usersService.create(
-    new User({ login, password, age })
+  const post: { isCreate: boolean, message?: string} = await usersService.create(
+    { login, password, age }
   );
 
-  if (user) {
+  if (post.isCreate) {
     res.sendStatus(200);
   } else {
-    res.sendStatus(403);
+    res.status(400).send({ message: post.message });
   }
 });
 

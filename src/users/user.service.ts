@@ -1,8 +1,8 @@
 import * as usersRepository from './user.memory.repository';
 import { OutputUser, InputUser } from './user.model';
 
-const create = (user: OutputUser): Promise<OutputUser | undefined> => {
-  return usersRepository.createInMemory(user);
+const create = (properties: InputUser): Promise<{ isCreate: boolean, message?: string}> => {
+  return usersRepository.createInMemory(properties);
 };
 
 const get = (id: string): Promise<OutputUser | undefined> => {
