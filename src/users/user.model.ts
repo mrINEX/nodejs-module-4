@@ -10,7 +10,6 @@ type ToResponseUser = {
   id: string;
   login: string;
   age: number;
-  isDeleted: boolean;
 }
 
 interface OutputUser {
@@ -38,8 +37,8 @@ class User implements OutputUser {
   }
 
   static toResponse(user: OutputUser): ToResponseUser {
-    const { id, login, isDeleted, age } = user;
-    return { id, login, age, isDeleted };
+    const { id, login, age } = user;
+    return { id, login, age};
   }
 }
 

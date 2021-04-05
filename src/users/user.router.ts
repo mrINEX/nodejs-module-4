@@ -21,7 +21,7 @@ router.route('/').post(async (req, res) => {
 router.route('/:id').get(async (req, res) => {
   const { id } = req.params;
 
-  const user = await usersService.get(id);
+  const user: OutputUser = await usersService.get(id);
 
   if (user) {
     res.json(User.toResponse(user));
@@ -33,7 +33,7 @@ router.route('/:id').get(async (req, res) => {
 router.route('/').get(async (req, res) => {
   const { loginSubstring, limit } = req.query;
 
-  const users = await usersService.getAll(
+  const users: OutputUser[] = await usersService.getAll(
     loginSubstring as string,
     Number.isNaN(Number(limit)) ? undefined : Number(limit)
   );
@@ -45,7 +45,7 @@ router.route('/:id').put(async (req, res) => {
   const { login, password, age } = req.body;
   const { id } = req.params;
 
-  const isUpdated = await usersService.update(id, { login, password, age });
+  const isUpdated: boolean = await usersService.update(id, { login, password, age });
 
   if (isUpdated) {
     res.sendStatus(200);
@@ -57,7 +57,7 @@ router.route('/:id').put(async (req, res) => {
 router.route('/:id').delete(async (req, res) => {
   const { id } = req.params;
 
-  const isDeleted = await usersService.remove(id);
+  const isDeleted: boolean = await usersService.remove(id);
 
   if (isDeleted) {
     res.sendStatus(200);
