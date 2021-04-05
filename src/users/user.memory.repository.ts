@@ -10,14 +10,14 @@ const schemaInputUser = Joi.object({
 
 const memoryUsers: OutputUser[] = [];
 
-const createInMemory = async (properties: InputUser): Promise<{ isCreate: boolean, message?: string}> => {
+const createInMemory = async (properties: InputUser): Promise<{ isCreated: boolean, message?: string}> => {
   try {
     const value = await schemaInputUser.validateAsync(properties);
     memoryUsers.push(new User(value));
-    return { isCreate: true };
+    return { isCreated: true };
   } catch (err) {
     const [details] = err.details;
-    return { isCreate: false, message: details.message };
+    return { isCreated: false, message: details.message };
   }
 };
 
@@ -30,15 +30,22 @@ const getAllFromMemory = async (loginSubstring = '', limit: number = memoryUsers
   return getAutoSuggestUsers(memoryUsers, loginSubstring, limit);
 };
 
-const updateInMemory = async (id: string, properties: InputUser): Promise<boolean> => {
-  let isUpdated = false;
-  memoryUsers.forEach((user) => {
-    if (id === user.id && !user.isDeleted) {
-      Object.assign(user, properties);
-      isUpdated = !isUpdated;
-    }
-  });
-  return isUpdated;
+const updateInMemory = async (id: string, properties: InputUser): Promise<{ isUpdated: boolean, message?: string}> => {
+  try {
+    const validatedProperties = await schemaInputUser.validateAsync(properties);
+
+    let isUpdated = false;
+    memoryUsers.forEach((user) => {
+      if (id === user.id && !user.isDeleted) {
+        Object.assign(user, validatedProperties);
+        isUpdated = !isUpdated;
+      }
+    });
+    return { isUpdated };
+  } catch(err) {
+    const [details] = err.details;
+    return { isUpdated: false, message: details.message };
+  }
 };
 
 const softDeleteInMemory = async (id: string): Promise<boolean> => {

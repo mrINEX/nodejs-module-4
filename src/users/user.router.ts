@@ -7,11 +7,11 @@ const router = Router();
 router.route('/').post(async (req, res) => {
   const { login, password, age } = req.body;
 
-  const post: { isCreate: boolean, message?: string} = await usersService.create(
+  const post: { isCreated: boolean, message?: string} = await usersService.create(
     { login, password, age }
   );
 
-  if (post.isCreate) {
+  if (post.isCreated) {
     res.sendStatus(200);
   } else {
     res.status(400).send({ message: post.message });
@@ -45,12 +45,19 @@ router.route('/:id').put(async (req, res) => {
   const { login, password, age } = req.body;
   const { id } = req.params;
 
-  const isUpdated: boolean = await usersService.update(id, { login, password, age });
+  const put: { isUpdated: boolean, message?: string } = await usersService.update(
+    id,
+    { login, password, age }
+  );
 
-  if (isUpdated) {
-    res.sendStatus(200);
+  if (put.message) {
+    res.status(400).send({ message: put.message });
   } else {
-    res.sendStatus(404);
+    if (put.isUpdated) {
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(404);
+    }
   }
 });
 

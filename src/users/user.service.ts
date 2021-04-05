@@ -1,7 +1,7 @@
 import * as usersRepository from './user.memory.repository';
 import { OutputUser, InputUser } from './user.model';
 
-const create = (properties: InputUser): Promise<{ isCreate: boolean, message?: string}> => {
+const create = (properties: InputUser): Promise<{ isCreated: boolean, message?: string}> => {
   return usersRepository.createInMemory(properties);
 };
 
@@ -13,7 +13,7 @@ const getAll = (loginSubstring: string, limit: number): Promise<OutputUser[]> =>
   return usersRepository.getAllFromMemory(loginSubstring, limit);
 };
 
-const update = (id: string, properties: InputUser): Promise<boolean> => {
+const update = (id: string, properties: InputUser): Promise<{ isUpdated: boolean, message?: string}> => {
   return usersRepository.updateInMemory(id, properties);
 };
 
