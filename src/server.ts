@@ -1,12 +1,16 @@
 import { Express } from 'express';
+import http from 'http';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-function server(app: Express): void {
-  app.listen(process.env.PORT, () =>
-    console.log(`App is running on http://localhost:${process.env.PORT}`)
-  );
+function runServer(app: Express): void {
+  const { PORT } = process.env;
+
+  const server = http.createServer(app);
+  server.listen(PORT, () => {
+    console.log(`App is running on http://localhost:${PORT}`)
+  });
 }
 
-export default server;
+export default runServer;
