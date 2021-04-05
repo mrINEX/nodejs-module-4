@@ -17,11 +17,11 @@ const getAllFromMemory = async (loginSubstring = '', limit: number = memoryUsers
   return getAutoSuggestUsers(memoryUsers, loginSubstring, limit);
 }
 
-const updateInMemory = async (id: string, property: InputUser): Promise<boolean> => {
+const updateInMemory = async (id: string, properties: InputUser): Promise<boolean> => {
   let isUpdated = false;
   memoryUsers.forEach((user) => {
     if (id === user.id && !user.isDeleted) {
-      Object.assign(user, property);
+      Object.assign(user, properties);
       isUpdated = !isUpdated;
     }
   });

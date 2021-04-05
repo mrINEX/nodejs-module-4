@@ -13,8 +13,8 @@ const getAll = (loginSubstring: string, limit: number): Promise<OutputUser[]> =>
   return usersRepository.getAllFromMemory(loginSubstring, limit);
 }
 
-const update = (id: string, property: InputUser): Promise<boolean> => {
-  return usersRepository.updateInMemory(id, property);
+const update = (id: string, properties: InputUser): Promise<boolean> => {
+  return usersRepository.updateInMemory(id, properties);
 }
 
 const remove = (id: string): Promise<boolean> => {
