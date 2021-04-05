@@ -7,7 +7,7 @@ const router = Router();
 router.route('/').post(async (req, res) => {
   const { login, password, age } = req.body;
 
-  const user: OutputUser = await usersService.create(
+  const user: OutputUser | undefined = await usersService.create(
     new User({ login, password, age })
   );
 
@@ -21,7 +21,7 @@ router.route('/').post(async (req, res) => {
 router.route('/:id').get(async (req, res) => {
   const { id } = req.params;
 
-  const user: OutputUser = await usersService.get(id);
+  const user: OutputUser | undefined = await usersService.get(id);
 
   if (user) {
     res.json(User.toResponse(user));
@@ -64,6 +64,6 @@ router.route('/:id').delete(async (req, res) => {
   } else {
     res.sendStatus(404);
   }
-})
+});
 
 export { router };

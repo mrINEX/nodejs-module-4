@@ -5,7 +5,8 @@
   "main": "./dist/app.js",
   "scripts": {
     "start": "tsc && node ./dist/app.js",
-    "task-1": "nodemon ./src/app.ts"
+    "task-1": "nodemon ./src/app.ts",
+    "lint": "eslint --ext .js,.ts ./src"
   },
   "repository": {
     "type": "git",

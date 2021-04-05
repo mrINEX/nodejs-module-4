@@ -3,19 +3,19 @@ import getAutoSuggestUsers from '../utils/getAutoSuggestUsers';
 
 const memoryUsers: OutputUser[] = [];
 
-const createInMemory = async (user: OutputUser): Promise<OutputUser> => {
+const createInMemory = async (user: OutputUser): Promise<OutputUser | undefined> => {
   memoryUsers.push(user);
   return getFromMemory(user.id);
-}
+};
 
-const getFromMemory = async (id: string): Promise<OutputUser> => {
-  const [ user ] = memoryUsers.filter((user) => user.id === id && !user.isDeleted);
-  return user;
-}
+const getFromMemory = async (id: string): Promise<OutputUser | undefined> => {
+  const [isUser] = memoryUsers.filter((user) => user.id === id && !user.isDeleted);
+  return isUser;
+};
 
 const getAllFromMemory = async (loginSubstring = '', limit: number = memoryUsers.length): Promise<OutputUser[]> => {
   return getAutoSuggestUsers(memoryUsers, loginSubstring, limit);
-}
+};
 
 const updateInMemory = async (id: string, properties: InputUser): Promise<boolean> => {
   let isUpdated = false;
@@ -26,7 +26,7 @@ const updateInMemory = async (id: string, properties: InputUser): Promise<boolea
     }
   });
   return isUpdated;
-}
+};
 
 const softDeleteInMemory = async (id: string): Promise<boolean> => {
   let isSoftDeleted = false;
@@ -37,6 +37,6 @@ const softDeleteInMemory = async (id: string): Promise<boolean> => {
     }
   });
   return isSoftDeleted;
-}
+};
 
 export { createInMemory, getFromMemory, getAllFromMemory, updateInMemory, softDeleteInMemory };

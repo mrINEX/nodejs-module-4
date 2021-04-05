@@ -1,5 +1,5 @@
 import express from 'express';
-import cors from 'cors'
+import cors from 'cors';
 
 import server from './server';
 import { router as userRouter } from './users/user.router';

@@ -38,7 +38,7 @@ class User implements OutputUser {
 
   static toResponse(user: OutputUser): ToResponseUser {
     const { id, login, age } = user;
-    return { id, login, age};
+    return { id, login, age };
   }
 }
 
