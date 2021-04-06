@@ -5,14 +5,16 @@ import { Request, Response } from 'express';
 const postMethodHandler = async (req: Request, res: Response): Promise<void> => {
   const { login, password, age } = req.body;
 
-  const post: { isCreated: boolean, message?: string} = await usersService.create(
+  const post: {
+    isCreated: boolean, status?: number, message?: string
+  } = await usersService.create(
     { login, password, age }
   );
 
   if (post.isCreated) {
     res.sendStatus(200);
   } else {
-    res.status(400).send({ message: post.message });
+    res.status(post.status).send({ message: post.message });
   }
 };
 

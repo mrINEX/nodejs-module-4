@@ -10,14 +10,27 @@ const schemaInputUser = Joi.object({
 
 const memoryUsers: OutputUser[] = [];
 
-const createInMemory = async (properties: InputUser): Promise<{ isCreated: boolean, message?: string}> => {
+const createInMemory = async (
+    properties: InputUser
+  ): Promise<{ isCreated: boolean, status?: number, message?: string}> => {
   try {
-    const value = await schemaInputUser.validateAsync(properties);
-    memoryUsers.push(new User(value));
+    const validatedProperties = await schemaInputUser.validateAsync(properties);
+    const isExistUser: boolean = memoryUsers.some((user: OutputUser) => {
+      return user.login === validatedProperties.login;
+    });
+    if (isExistUser) {
+      return {
+        isCreated: false, status: 403,
+        message: `User with this [${validatedProperties.login}] login already exist`
+      };
+    }
+
+    memoryUsers.push(new User(validatedProperties));
+
     return { isCreated: true };
   } catch (err) {
     const [details] = err.details;
-    return { isCreated: false, message: details.message };
+    return { isCreated: false, status: 400, message: details.message };
   }
 };
 
