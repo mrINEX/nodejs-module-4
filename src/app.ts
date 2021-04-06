@@ -1,7 +1,7 @@
 import express from 'express';
-import cors from 'cors';
+import cors from 'cors'
 
-import server from './server';
+import runServer from './server';
 import { router as userRouter } from './users/user.router';
 
 const app = express();
@@ -19,4 +19,4 @@ app.use('/', (req, res, next) => {
 
 app.use('/users', userRouter);
 
-server(app);
+runServer(app);
