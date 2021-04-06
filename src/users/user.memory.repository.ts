@@ -16,7 +16,7 @@ const createInMemory = async (
   try {
     const validatedProperties = await schemaInputUser.validateAsync(properties);
 
-    const existUser: OutputUser = memoryUsers.find((user: OutputUser) => {
+    const existUser: OutputUser | undefined = memoryUsers.find((user: OutputUser) => {
       return user.login === validatedProperties.login;
     });
     if (existUser) {
