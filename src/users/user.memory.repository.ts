@@ -1,12 +1,6 @@
 import { OutputUser, InputUser, User } from './user.model';
-import getAutoSuggestUsers from '../utils/getAutoSuggestUsers';
-import Joi from 'joi';
-
-const schemaInputUser = Joi.object({
-  login: Joi.string().required(),
-  password: Joi.string().pattern(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/).required(),
-  age: Joi.number().min(3).max(130).required(),
-});
+import getAutoSuggestUsers from './utils/get-specific-users';
+import { schemaInputUser } from './utils/validate-schema';
 
 const memoryUsers: OutputUser[] = [];
 

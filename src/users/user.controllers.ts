@@ -1,8 +1,8 @@
-import * as usersService from '../user.service';
-import { User, OutputUser } from '../user.model';
+import * as usersService from './user.service';
+import { User, OutputUser } from './user.model';
 import { Request, Response } from 'express';
 
-const postMethodHandler = async (req: Request, res: Response): Promise<void> => {
+export const postMethodHandler = async (req: Request, res: Response): Promise<void> => {
   const { login, password, age } = req.body;
 
   const post: {
@@ -18,7 +18,7 @@ const postMethodHandler = async (req: Request, res: Response): Promise<void> => 
   }
 };
 
-const getMethodHandler = async (req: Request, res: Response): Promise<void> => {
+export const getMethodHandler = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
 
   const user: OutputUser | undefined = await usersService.get(id);
@@ -30,7 +30,7 @@ const getMethodHandler = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-const getAllMethodHandler = async (req: Request, res: Response): Promise<void> => {
+export const getAllMethodHandler = async (req: Request, res: Response): Promise<void> => {
   const { loginSubstring, limit } = req.query;
 
   const users: OutputUser[] = await usersService.getAll(
@@ -41,7 +41,7 @@ const getAllMethodHandler = async (req: Request, res: Response): Promise<void> =
   res.json(users.map(User.toResponse));
 };
 
-const putMethodHandler = async (req: Request, res: Response): Promise<void> => {
+export const putMethodHandler = async (req: Request, res: Response): Promise<void> => {
   const { login, password, age } = req.body;
   const { id } = req.params;
 
@@ -61,7 +61,7 @@ const putMethodHandler = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-const deleteMethodHandler = async (req: Request, res: Response): Promise<void> => {
+export const deleteMethodHandler = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
 
   const isDeleted: boolean = await usersService.remove(id);
@@ -71,10 +71,4 @@ const deleteMethodHandler = async (req: Request, res: Response): Promise<void> =
   } else {
     res.sendStatus(404);
   }
-};
-
-export {
-  postMethodHandler, getMethodHandler,
-  getAllMethodHandler, putMethodHandler,
-  deleteMethodHandler
 };

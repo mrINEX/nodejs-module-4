@@ -1,4 +1,4 @@
-import { OutputUser } from '../users/user.model';
+import { OutputUser } from '../user.model';
 
 function getAutoSuggestUsers(
   memoryUsers: OutputUser[], loginSubstring: string, limit: number

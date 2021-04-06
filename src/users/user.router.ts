@@ -1,20 +1,12 @@
 import { Router } from 'express';
-import {
-  postMethodHandler, getMethodHandler,
-  getAllMethodHandler, putMethodHandler,
-  deleteMethodHandler
-} from './methods-handlers/methods-handler';
+import * as api from './user.controllers';
 
 const router = Router();
 
-router.route('/').post(postMethodHandler);
-
-router.route('/:id').get(getMethodHandler);
-
-router.route('/').get(getAllMethodHandler);
-
-router.route('/:id').put(putMethodHandler);
-
-router.route('/:id').delete(deleteMethodHandler);
+router.route('/').post(api.postMethodHandler);
+router.route('/:id').get(api.getMethodHandler);
+router.route('/').get(api.getAllMethodHandler);
+router.route('/:id').put(api.putMethodHandler);
+router.route('/:id').delete(api.deleteMethodHandler);
 
 export { router };
