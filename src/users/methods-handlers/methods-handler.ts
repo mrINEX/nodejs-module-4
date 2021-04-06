@@ -14,7 +14,7 @@ const postMethodHandler = async (req: Request, res: Response): Promise<void> => 
   } else {
     res.status(400).send({ message: post.message });
   }
-}
+};
 
 const getMethodHandler = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
@@ -26,7 +26,7 @@ const getMethodHandler = async (req: Request, res: Response): Promise<void> => {
   } else {
     res.sendStatus(404);
   }
-}
+};
 
 const getAllMethodHandler = async (req: Request, res: Response): Promise<void> => {
   const { loginSubstring, limit } = req.query;
@@ -37,7 +37,7 @@ const getAllMethodHandler = async (req: Request, res: Response): Promise<void> =
   );
 
   res.json(users.map(User.toResponse));
-}
+};
 
 const putMethodHandler = async (req: Request, res: Response): Promise<void> => {
   const { login, password, age } = req.body;
@@ -57,7 +57,7 @@ const putMethodHandler = async (req: Request, res: Response): Promise<void> => {
       res.sendStatus(404);
     }
   }
-}
+};
 
 const deleteMethodHandler = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
@@ -69,7 +69,7 @@ const deleteMethodHandler = async (req: Request, res: Response): Promise<void> =
   } else {
     res.sendStatus(404);
   }
-}
+};
 
 export {
   postMethodHandler, getMethodHandler,
