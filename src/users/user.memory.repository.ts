@@ -15,10 +15,11 @@ const createInMemory = async (
   ): Promise<{ isCreated: boolean, status?: number, message?: string}> => {
   try {
     const validatedProperties = await schemaInputUser.validateAsync(properties);
-    const isExistUser: boolean = memoryUsers.some((user: OutputUser) => {
+
+    const existUser: OutputUser = memoryUsers.find((user: OutputUser) => {
       return user.login === validatedProperties.login;
     });
-    if (isExistUser) {
+    if (existUser) {
       return {
         isCreated: false, status: 403,
         message: `User with this [${validatedProperties.login}] login already exist`
@@ -26,7 +27,6 @@ const createInMemory = async (
     }
 
     memoryUsers.push(new User(validatedProperties));
-
     return { isCreated: true };
   } catch (err) {
     const [details] = err.details;
