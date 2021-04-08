@@ -1,9 +1,9 @@
 import express from 'express';
 import cors from 'cors'
 
-import { router as userRouter } from './users/user.router';
+import registerModule from './users/index';
 
-export const app = express();
+const app = express();
 
 app.use(cors());
 app.use(express.json());
@@ -16,4 +16,6 @@ app.use('/', (req, res, next) => {
   next();
 });
 
-app.use('/users', userRouter);
+registerModule(app, '/users');
+
+export { app };
