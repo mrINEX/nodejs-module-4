@@ -6,7 +6,7 @@ export const postMethodHandler = async (req: Request, res: Response): Promise<vo
   const { login, password, age } = req.body;
 
   const post: {
-    isCreated: boolean, status?: number, message?: string
+    isCreated: boolean, status?: number, message?: Array<string>
   } = await usersService.create(
     { login, password, age }
   );
@@ -45,7 +45,7 @@ export const putMethodHandler = async (req: Request, res: Response): Promise<voi
   const { login, password, age } = req.body;
   const { id } = req.params;
 
-  const put: { isUpdated: boolean, message?: string } = await usersService.update(
+  const put: { isUpdated: boolean, message?: Array<string> } = await usersService.update(
     id,
     { login, password, age }
   );

@@ -1,14 +1,14 @@
 import { OutputUser, InputUser, User } from './user.model';
 import getAutoSuggestUsers from './utils/get-specific-users';
-import { schemaInputUser } from './utils/validate-schema';
+import { schemaInputUser, errorToResponse } from './utils/validate-schema';
 
 const memoryUsers: OutputUser[] = [];
 
 const createInMemory = async (
     properties: InputUser
-  ): Promise<{ isCreated: boolean, status?: number, message?: string}> => {
+  ): Promise<{ isCreated: boolean, status?: number, message?: Array<string>}> => {
   try {
-    const validatedProperties = await schemaInputUser.validateAsync(properties);
+    const validatedProperties = await schemaInputUser.validateAsync(properties, { abortEarly: false });
 
     const existUser: OutputUser | undefined = memoryUsers.find((user: OutputUser) => {
       return user.login === validatedProperties.login;
@@ -16,15 +16,14 @@ const createInMemory = async (
     if (existUser) {
       return {
         isCreated: false, status: 403,
-        message: `User with this [${validatedProperties.login}] login already exist`
+        message: [`User with this [${validatedProperties.login}] login already exist`]
       };
     }
 
     memoryUsers.push(new User(validatedProperties));
     return { isCreated: true };
   } catch (err) {
-    const [details] = err.details;
-    return { isCreated: false, status: 400, message: details.message };
+    return { isCreated: false, status: 400, message: errorToResponse(err.details) };
   }
 };
 
@@ -37,9 +36,12 @@ const getAllFromMemory = async (loginSubstring = '', limit: number = memoryUsers
   return getAutoSuggestUsers(memoryUsers, loginSubstring, limit);
 };
 
-const updateInMemory = async (id: string, properties: InputUser): Promise<{ isUpdated: boolean, message?: string}> => {
+const updateInMemory = async (
+  id: string,
+  properties: InputUser
+  ): Promise<{ isUpdated: boolean, message?: Array<string> }> => {
   try {
-    const validatedProperties = await schemaInputUser.validateAsync(properties);
+    const validatedProperties = await schemaInputUser.validateAsync(properties, { abortEarly: false });
 
     let isUpdated = false;
     memoryUsers.forEach((user) => {
@@ -50,8 +52,7 @@ const updateInMemory = async (id: string, properties: InputUser): Promise<{ isUp
     });
     return { isUpdated };
   } catch(err) {
-    const [details] = err.details;
-    return { isUpdated: false, message: details.message };
+    return { isUpdated: false, message: errorToResponse(err.details) };
   }
 };
 
