@@ -2,11 +2,11 @@
   "name": "nodejs-st-module-4",
   "version": "1.0.0",
   "description": "In-memory CRUD REST service with validation",
-  "main": "./dist/app.js",
+  "main": "./dist/server.js",
   "scripts": {
-    "start": "tsc && node ./dist/app.js",
-    "task-1": "nodemon ./src/app.ts",
-    "task-2": "nodemon ./src/app.ts",
+    "start": "tsc && node ./dist/server.js",
+    "task-1": "nodemon ./src/server.ts",
+    "task-2": "nodemon ./src/server.ts",
     "lint": "eslint --ext .js,.ts ./src"
   },
   "repository": {
