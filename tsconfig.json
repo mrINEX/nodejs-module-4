@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "experimentalDecorators": true, // requared decorators
+    "experimentalDecorators": true, // decorators
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,

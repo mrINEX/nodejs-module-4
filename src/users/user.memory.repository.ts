@@ -20,7 +20,8 @@ const createInMemory = async (
       };
     }
 
-    memoryUsers.push(new User(validatedProperties));
+    const user = new User(validatedProperties);
+    memoryUsers.push(user);
     return { isCreated: true };
   } catch (err) {
     return { isCreated: false, status: 400, message: errorToResponse(err.details) };

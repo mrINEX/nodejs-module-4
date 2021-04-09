@@ -1,17 +1,5 @@
 import { v4 as uuid } from 'uuid';
 
-type InputUser = {
-  login: string,
-  password: string,
-  age: number,
-}
-
-type ToResponseUser = {
-  id: string;
-  login: string;
-  age: number;
-}
-
 interface OutputUser {
   id: string,
   login: string,
@@ -19,6 +7,10 @@ interface OutputUser {
   age: number,
   isDeleted: boolean
 }
+
+type InputUser = Pick<OutputUser, 'login' | 'password' | 'age'>;
+
+type ToResponseUser = Pick<OutputUser, 'id' | 'login' | 'age'>;
 
 class User implements OutputUser {
   id: string;
