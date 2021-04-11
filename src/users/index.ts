@@ -1,4 +1,4 @@
-import { Application } from "express";
+import { Application } from 'express';
 import { router } from './user.router';
 
 function registerModule(app: Application, url: string): void {

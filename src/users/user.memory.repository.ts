@@ -5,8 +5,8 @@ import { schemaInputUser, errorToResponse } from './utils/validate-schema';
 const memoryUsers: OutputUser[] = [];
 
 const createInMemory = async (
-    properties: InputUser
-  ): Promise<{ isCreated: boolean, status?: number, message?: Array<string>}> => {
+  properties: InputUser,
+): Promise<{ isCreated: boolean; status?: number; message?: Array<string> }> => {
   try {
     const validatedProperties = await schemaInputUser.validateAsync(properties, { abortEarly: false });
 
@@ -15,8 +15,9 @@ const createInMemory = async (
     });
     if (existUser) {
       return {
-        isCreated: false, status: 403,
-        message: [`User with this [${validatedProperties.login}] login already exist`]
+        isCreated: false,
+        status: 403,
+        message: [`User with this [${validatedProperties.login}] login already exist`],
       };
     }
 
@@ -39,8 +40,8 @@ const getAllFromMemory = async (loginSubstring = '', limit: number = memoryUsers
 
 const updateInMemory = async (
   id: string,
-  properties: InputUser
-  ): Promise<{ isUpdated: boolean, message?: Array<string> }> => {
+  properties: InputUser,
+): Promise<{ isUpdated: boolean; message?: Array<string> }> => {
   try {
     const validatedProperties = await schemaInputUser.validateAsync(properties, { abortEarly: false });
 
@@ -52,7 +53,7 @@ const updateInMemory = async (
       }
     });
     return { isUpdated };
-  } catch(err) {
+  } catch (err) {
     return { isUpdated: false, message: errorToResponse(err.details) };
   }
 };

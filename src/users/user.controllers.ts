@@ -6,10 +6,10 @@ export const postMethodHandler = async (req: Request, res: Response): Promise<vo
   const { login, password, age } = req.body;
 
   const post: {
-    isCreated: boolean, status?: number, message?: Array<string>
-  } = await usersService.create(
-    { login, password, age }
-  );
+    isCreated: boolean;
+    status?: number;
+    message?: Array<string>;
+  } = await usersService.create({ login, password, age });
 
   if (post.isCreated) {
     res.sendStatus(200);
@@ -35,7 +35,7 @@ export const getAllMethodHandler = async (req: Request, res: Response): Promise<
 
   const users: OutputUser[] = await usersService.getAll(
     loginSubstring as string,
-    Number.isNaN(Number(limit)) ? undefined : Number(limit)
+    Number.isNaN(Number(limit)) ? undefined : Number(limit),
   );
 
   res.json(users.map(User.toResponse));
@@ -45,10 +45,7 @@ export const putMethodHandler = async (req: Request, res: Response): Promise<voi
   const { login, password, age } = req.body;
   const { id } = req.params;
 
-  const put: { isUpdated: boolean, message?: Array<string> } = await usersService.update(
-    id,
-    { login, password, age }
-  );
+  const put: { isUpdated: boolean; message?: Array<string> } = await usersService.update(id, { login, password, age });
 
   if (put.message) {
     res.status(400).send({ message: put.message });

@@ -1,11 +1,11 @@
 import { v4 as uuid } from 'uuid';
 
 interface OutputUser {
-  id: string,
-  login: string,
-  password: string,
-  age: number,
-  isDeleted: boolean
+  id: string;
+  login: string;
+  password: string;
+  age: number;
+  isDeleted: boolean;
 }
 
 type InputUser = Pick<OutputUser, 'login' | 'password' | 'age'>;
