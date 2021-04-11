@@ -7,7 +7,7 @@
     "start": "tsc && node ./dist/server.js",
     "task-1": "nodemon ./src/server.ts",
     "task-2": "nodemon ./src/server.ts",
-    "lint": "eslint --ext .js,.ts ./src"
+    "lint": "eslint ./src --ext .js,.ts"
   },
   "repository": {
     "type": "git",
