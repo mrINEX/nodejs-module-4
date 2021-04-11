@@ -5,9 +5,10 @@
   "main": "./dist/server.js",
   "scripts": {
     "start": "tsc && node ./dist/server.js",
-    "task-1": "nodemon ./src/server.ts",
-    "task-2": "nodemon ./src/server.ts",
-    "lint": "eslint ./src --ext .js,.ts"
+    "server": "nodemon ./src/server.ts",
+    "lint": "eslint ./src --ext .js,.ts",
+    "prettier:check": "prettier --check ./src",
+    "prettier:write": "prettier --write ./src"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
     "@typescript-eslint/parser": "^4.20.0",
     "eslint": "^7.23.0",
     "nodemon": "^2.0.7",
+    "prettier": "2.2.1",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.3"
   },
