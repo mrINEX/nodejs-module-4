@@ -1,13 +1,17 @@
+import 'reflect-metadata';
 import http from 'http';
-import dotenv from 'dotenv';
 
+import config from './config/index';
 import { app } from './app';
+import { createConnection } from 'typeorm';
 
-dotenv.config();
-
-const { PORT } = process.env;
+const { PORT, typeORM } = config;
 
 const server = http.createServer(app);
 server.listen(PORT, () => {
   console.log(`App is running on http://localhost:${PORT}`);
+
+  createConnection(typeORM)
+    .then(() => console.log('Connection is created to PostgreSQL.'))
+    .catch((error) => console.log("Cannot connect: ", error));
 });

@@ -1,11 +1,17 @@
 {
   "compilerOptions": {
-    "experimentalDecorators": true, // decorators
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "sourceMap": true,
     "outDir": "dist",
     "target": "ES5",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "lib": ["ES6"]
   },
+  "exclude": [
+    "node_modules"
+  ]
 }

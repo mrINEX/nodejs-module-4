@@ -1,24 +1,22 @@
-import * as usersRepository from './user.memory.repository';
+import * as usersRepository from './user.postgreDB.repository';
 import { OutputUser, InputUser } from './user.model';
 
-const create = (properties: InputUser): Promise<{ isCreated: boolean; status?: number; message?: Array<string> }> => {
-  return usersRepository.createInMemory(properties);
+export const create = (properties: InputUser): Promise<OutputUser> => {
+  return usersRepository.createInPostgreDB(properties);
 };
 
-const get = (id: string): Promise<OutputUser | undefined> => {
-  return usersRepository.getFromMemory(id);
+export const get = (id: string): Promise<OutputUser | undefined> => {
+  return usersRepository.getByIdPostgreDB(id);
 };
 
-const getAll = (loginSubstring: string, limit: number): Promise<OutputUser[]> => {
-  return usersRepository.getAllFromMemory(loginSubstring, limit);
+export const getAll = (loginSubstring: string, limit: number): Promise<OutputUser[]> => {
+  return usersRepository.getByAllPostgreDB(loginSubstring, limit);
 };
 
-const update = (id: string, properties: InputUser): Promise<{ isUpdated: boolean; message?: Array<string> }> => {
-  return usersRepository.updateInMemory(id, properties);
-};
+// const update = (id: string, properties: InputUser): Promise<{ isUpdated: boolean; message?: Array<string> }> => {
+//   return usersRepository.updateInMemory(id, properties);
+// };
 
-const remove = (id: string): Promise<boolean> => {
-  return usersRepository.softDeleteInMemory(id);
-};
-
-export { create, get, getAll, update, remove };
+// const remove = (id: string): Promise<boolean> => {
+//   return usersRepository.softDeleteInMemory(id);
+// };

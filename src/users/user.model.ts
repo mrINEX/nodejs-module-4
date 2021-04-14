@@ -1,37 +1,33 @@
-import { v4 as uuid } from 'uuid';
+import { BaseEntity, Column, Entity, Like, PrimaryGeneratedColumn } from "typeorm";
 
-interface OutputUser {
+export interface OutputUser {
   id: string;
   login: string;
   password: string;
   age: number;
-  isDeleted: boolean;
 }
 
-type InputUser = Pick<OutputUser, 'login' | 'password' | 'age'>;
+export type InputUser = Pick<OutputUser, 'login' | 'password' | 'age'>;
+export type ToResponseUser = Pick<OutputUser, 'id' | 'login' | 'age'>;
 
-type ToResponseUser = Pick<OutputUser, 'id' | 'login' | 'age'>;
-
-class User implements OutputUser {
+@Entity()
+export class User extends BaseEntity implements OutputUser {
+  @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Column()
   login: string;
+
+  @Column()
   password: string;
+
+  @Column()
   age: number;
-  isDeleted: boolean;
-  toResponse: (user: OutputUser) => ToResponseUser;
 
-  constructor({ login, password, age }: InputUser) {
-    this.id = uuid();
-    this.login = login;
-    this.password = password;
-    this.age = age;
-    this.isDeleted = false;
-  }
-
-  static toResponse(user: OutputUser): ToResponseUser {
-    const { id, login, age } = user;
-    return { id, login, age };
+  static async getAutoSuggestUsers(loginSubstring: string, limit: number): Promise<OutputUser[]> {
+    const filtered = await this.find({
+      login: Like(`%${loginSubstring}%`)
+    });
+    return filtered.slice(0, limit);
   }
 }
-
-export { User, OutputUser, InputUser };
