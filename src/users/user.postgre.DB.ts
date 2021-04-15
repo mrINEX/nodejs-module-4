@@ -1,6 +1,9 @@
 import { InputUser, User } from './user.model';
 
-export const createInPostgreDB = async (properties: InputUser): Promise<User> => {
+export const createInPostgreDB = async (properties: InputUser): Promise<User | null> => {
+  const userExist = await User.findOne({ login: properties.login });
+  if(userExist) return null;
+
   const user = new User();
   Object.assign(user, properties);
   return await user.save();

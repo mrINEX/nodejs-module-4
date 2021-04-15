@@ -36,4 +36,10 @@ export class User extends BaseEntity implements OutputUser {
     });
     return filtered.slice(0, limit);
   }
+
+  static toResponse(user: OutputUser): ToResponseUser {
+    const { id, login, age } = user;
+    return { id, login, age };
+  }
+
 }

@@ -6,7 +6,11 @@ export const postMethodHandler = async (req: Request, res: Response): Promise<vo
 
   const user = await usersService.create({ login, password, age });
   
-  res.json({ user });
+  if (user) {
+    res.json({ user });
+  } else {
+    res.status(403).json({ user, message: `User with this "${login}" login exist` });
+  }
 };
 
 export const getMethodHandler = async (req: Request, res: Response): Promise<void> => {
@@ -14,7 +18,11 @@ export const getMethodHandler = async (req: Request, res: Response): Promise<voi
 
   const user = await usersService.get(id);
 
-  res.json({ user });
+  if (user) {
+    res.json({ user });
+  } else {
+    res.status(404).json({ user });
+  }
 };
 
 export const getAllMethodHandler = async (req: Request, res: Response): Promise<void> => {
@@ -39,5 +47,9 @@ export const deleteMethodHandler = async (req: Request, res: Response): Promise<
 
   const user = await usersService.remove(id);
 
-  res.json({ user });
+  if (user) {
+    res.json({ user });
+  } else {
+    res.status(404).json({ user });
+  }
 };
