@@ -1,5 +1,4 @@
 import * as usersService from './user.service';
-import { User } from './user.model';
 import { Request, Response } from 'express';
 
 export const postMethodHandler = async (req: Request, res: Response): Promise<void> => {
@@ -30,15 +29,15 @@ export const putMethodHandler = async (req: Request, res: Response): Promise<voi
   const { login, password, age } = req.body;
   const { id } = req.params;
 
-  const user = await User.find();
+  const affected = await usersService.update(id, { login, password, age });
 
-  res.status(200).send({ user });
+  res.json({ affected });
 };
 
 export const deleteMethodHandler = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
 
-  const user = await User.find();
+  const user = await usersService.remove(id);
 
-  res.status(200).send({ user });
+  res.json({ user });
 };

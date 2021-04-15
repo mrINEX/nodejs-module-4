@@ -1,22 +1,22 @@
 import * as usersRepository from './user.postgreDB.repository';
-import { OutputUser, InputUser } from './user.model';
+import { InputUser, User } from './user.model';
 
-export const create = (properties: InputUser): Promise<OutputUser> => {
+export const create = (properties: InputUser): Promise<User> => {
   return usersRepository.createInPostgreDB(properties);
 };
 
-export const get = (id: string): Promise<OutputUser | undefined> => {
+export const get = (id: string): Promise<User | null> => {
   return usersRepository.getByIdPostgreDB(id);
 };
 
-export const getAll = (loginSubstring: string, limit: number): Promise<OutputUser[]> => {
+export const getAll = (loginSubstring: string, limit: number): Promise<User[]> => {
   return usersRepository.getByAllPostgreDB(loginSubstring, limit);
 };
 
-// const update = (id: string, properties: InputUser): Promise<{ isUpdated: boolean; message?: Array<string> }> => {
-//   return usersRepository.updateInMemory(id, properties);
-// };
+export const update = (id: string, properties: InputUser): Promise<number> => {
+  return usersRepository.updateInPostgreDB(id, properties);
+};
 
-// const remove = (id: string): Promise<boolean> => {
-//   return usersRepository.softDeleteInMemory(id);
-// };
+export const remove = (id: string): Promise<User | null> => {
+  return usersRepository.deleteInPostgreDB(id);
+};

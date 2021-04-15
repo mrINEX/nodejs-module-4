@@ -1,10 +1,13 @@
-import { BaseEntity, Column, Entity, Like, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BaseEntity, Column, DeleteDateColumn, Entity, Like, PrimaryGeneratedColumn
+} from "typeorm";
 
 export interface OutputUser {
   id: string;
   login: string;
   password: string;
   age: number;
+  deletedDate: Date;
 }
 
 export type InputUser = Pick<OutputUser, 'login' | 'password' | 'age'>;
@@ -24,7 +27,10 @@ export class User extends BaseEntity implements OutputUser {
   @Column()
   age: number;
 
-  static async getAutoSuggestUsers(loginSubstring: string, limit: number): Promise<OutputUser[]> {
+  @DeleteDateColumn()
+  deletedDate: Date;
+
+  static async getAutoSuggest(loginSubstring: string, limit: number): Promise<User[]> {
     const filtered = await this.find({
       login: Like(`%${loginSubstring}%`)
     });

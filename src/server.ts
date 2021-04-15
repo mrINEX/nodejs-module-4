@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 import http from 'http';
+import { createConnection } from 'typeorm';
 
 import config from './config/index';
 import { app } from './app';
-import { createConnection } from 'typeorm';
 
 const { PORT, typeORM } = config;
 

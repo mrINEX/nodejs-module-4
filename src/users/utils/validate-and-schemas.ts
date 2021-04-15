@@ -10,8 +10,8 @@ export const schemaInputUser = Joi.object({
 });
 
 export const schemaGetAutoSuggest = Joi.object({
-  loginSubstring: Joi.string(),
-  limit: Joi.number()
+  loginSubstring: Joi.string().optional(),
+  limit: Joi.number().optional()
 });
 
 export function errorToResponse(errors: ValidationErrorItem[]): Array<string> {
