@@ -20,7 +20,7 @@ const config = {
     url: process.env.TYPEORM_URL as string,
     entities: [process.env.TYPEORM_ENTITIES as string],
     synchronize: (process.env.TYPEORM_SYNCHRONIZE === 'true') as boolean,
-  }
-}
+  },
+};
 
-export default config
+export default config;

@@ -15,12 +15,12 @@ server.listen(PORT, () => {
     .then(async (connection) => {
       const queryRunner: QueryRunner = connection.createQueryRunner();
       await queryRunner.connect();
-      
-      await queryRunner.dropTable("user");
+
+      await queryRunner.dropTable('user');
       await connection.synchronize();
       await queryRunner.release();
-      
+
       console.log('Connection is created to PostgreSQL.');
     })
-    .catch((error) => console.log("Cannot connect: ", error));
+    .catch((error) => console.log('Cannot connect: ', error));
 });

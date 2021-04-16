@@ -5,7 +5,7 @@ export const postMethodHandler = async (req: Request, res: Response): Promise<vo
   const { login, password, age } = req.body;
 
   const user = await usersService.create({ login, password, age });
-  
+
   if (user) {
     res.json({ user });
   } else {

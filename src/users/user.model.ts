@@ -1,6 +1,4 @@
-import {
-  BaseEntity, Column, DeleteDateColumn, Entity, Like, PrimaryGeneratedColumn
-} from "typeorm";
+import { BaseEntity, Column, DeleteDateColumn, Entity, Like, PrimaryGeneratedColumn } from 'typeorm';
 
 export interface OutputUser {
   id: string;
@@ -32,7 +30,7 @@ export class User extends BaseEntity implements OutputUser {
 
   static async getAutoSuggest(loginSubstring: string, limit: number): Promise<User[]> {
     const filtered = await this.find({
-      login: Like(`%${loginSubstring}%`)
+      login: Like(`%${loginSubstring}%`),
     });
     return filtered.slice(0, limit);
   }
@@ -41,5 +39,4 @@ export class User extends BaseEntity implements OutputUser {
     const { id, login, age } = user;
     return { id, login, age };
   }
-
 }

@@ -11,7 +11,7 @@ export const schemaInputUser = Joi.object({
 
 export const schemaGetAutoSuggest = Joi.object({
   loginSubstring: Joi.string().optional(),
-  limit: Joi.number().optional()
+  limit: Joi.number().optional(),
 });
 
 export function errorToResponse(errors: ValidationErrorItem[]): Array<string> {
@@ -29,7 +29,7 @@ export function validateBody(schema: Schema) {
       return;
     }
     next();
-  }
+  };
 }
 
 export function validateQuery(schema: Schema) {
@@ -43,5 +43,5 @@ export function validateQuery(schema: Schema) {
       return;
     }
     next();
-  }
+  };
 }
