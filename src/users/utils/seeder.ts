@@ -1,7 +1,8 @@
-import { createConnection, getConnection, getConnectionManager } from 'typeorm';
+import { createConnection, getConnection, getConnectionManager, QueryRunner } from 'typeorm';
 import { User } from '../user.model';
-import randomInteger from './random-int';
+import { randomInteger } from './random-int';
 import config from '../../config';
+import { dropAndCreateTable } from './dropAndCreateTable';
 const { typeORM } = config;
 
 const [, , , quantity] = process.argv;
@@ -10,17 +11,18 @@ const validQuantity = Number.isNaN(Number(quantity)) ? undefined : +quantity;
 
 runSeed(validQuantity);
 
-export default async function runSeed(quantity = 20): Promise<void> {
+export async function runSeed(quantity = 20): Promise<void> {
   const hasConnections = getConnectionManager().connections.length;
   if (!hasConnections) {
     await createConnection(typeORM);
   }
 
   const connection = getConnection();
-  const queryRunner = connection.createQueryRunner();
-
+  const queryRunner: QueryRunner = connection.createQueryRunner();
   await queryRunner.connect();
-  await connection.synchronize();
+
+  await dropAndCreateTable(queryRunner, connection);
+
   await queryRunner.startTransaction();
 
   try {

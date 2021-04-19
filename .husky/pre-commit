@@ -2,5 +2,5 @@
 . "$(dirname "$0")/_/husky.sh"
 
 npm run lint
-npm run prettier:check
-# git add --all
+npm run prettier:write
+git add --all

@@ -6,18 +6,15 @@
   "scripts": {
     "start": "tsc && node ./dist/server.js",
     "server": "nodemon ./src/server.ts",
-    "server:migration": "npm run pre:mirgation && nodemon ./src/server.ts",
-    "pre:mirgation": "npm run createTS:migration && npm run createJS:migration",
-    "createJS:migration": "npx tsc ./src/users/migration/*.ts",
-    "createTS:migration": "npm run typeorm migration:create -- -n migrationcreate -d src/users/migration",
-    "run:migration": "npm run typeorm migration:run",
-    "generate:migration": "npm run typeorm migration:generate -- -n migrationgenerate -d src/users/migration --outputJs --pretty",
+    "orm:revert:migration": "npm run typeorm migration:revert",
+    "orm:create:migration": "npm run typeorm migration:create -- -n Create -d src/users/migration",
+    "orm:run:migration": "npm run typeorm migration:run",
+    "orm:generate:migration": "npm run typeorm migration:generate -- -n Generate -d src/users/migration --pretty",
     "lint": "eslint ./src --ext .js,.ts",
     "prettier:check": "prettier --check ./src",
     "prettier:write": "prettier --write ./src",
     "prepare": "husky install",
     "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
-    "docker:compose": "typeorm init --name MyProject --database postgres --docker",
     "seed": "npx ts-node ./src/users/utils/seeder.ts"
   },
   "repository": {
