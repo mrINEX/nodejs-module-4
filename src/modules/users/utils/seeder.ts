@@ -1,7 +1,7 @@
 import { createConnection, getConnection, getConnectionManager, QueryRunner } from 'typeorm';
 import { User } from '../user.model';
 import { randomInteger } from './random-int';
-import config from '../../config';
+import config from '../../../config';
 import { dropAndCreateTable } from './dropAndCreateTable';
 const { typeORM } = config;
 

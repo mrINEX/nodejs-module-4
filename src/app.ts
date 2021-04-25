@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 
-import registerModule from './users/index';
+import registerUserModule from './modules/users/index';
+import registerGroupModule from './modules/groups/index';
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use('/', (req, res, next) => {
   next();
 });
 
-registerModule(app, '/users');
+registerUserModule(app, '/users');
+registerGroupModule(app, '/groups');
 
 export { app };
