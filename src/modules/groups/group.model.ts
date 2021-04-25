@@ -22,7 +22,10 @@ export class Group extends BaseEntity {
   @Column('simple-array')
   permissions: Array<Permissions>;
 
-  @ManyToMany(() => User)
+  @ManyToMany(() => User, (user) => user.groups, {
+    cascade: ['insert', 'update', 'remove', 'soft-remove', 'recover'],
+    eager: true,
+  })
   @JoinTable({ name: 'UserGroup' })
   users: User[];
 }

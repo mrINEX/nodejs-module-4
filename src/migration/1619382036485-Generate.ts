@@ -1,9 +1,17 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class Generate1619338541239 implements MigrationInterface {
-  name = 'Generate1619338541239';
+export class Generate1619382036485 implements MigrationInterface {
+  name = 'Generate1619382036485';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
+            CREATE TABLE "group" (
+                "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
+                "name" character varying NOT NULL,
+                "permissions" text NOT NULL,
+                CONSTRAINT "PK_256aa0fda9b1de1a73ee0b7106b" PRIMARY KEY ("id")
+            )
+        `);
     await queryRunner.query(`
             CREATE TABLE "user" (
                 "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -12,14 +20,6 @@ export class Generate1619338541239 implements MigrationInterface {
                 "age" integer NOT NULL,
                 "deletedDate" TIMESTAMP,
                 CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id")
-            )
-        `);
-    await queryRunner.query(`
-            CREATE TABLE "group" (
-                "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
-                "name" character varying NOT NULL,
-                "permissions" text NOT NULL,
-                CONSTRAINT "PK_256aa0fda9b1de1a73ee0b7106b" PRIMARY KEY ("id")
             )
         `);
     await queryRunner.query(`
@@ -62,10 +62,10 @@ export class Generate1619338541239 implements MigrationInterface {
             DROP TABLE "UserGroup"
         `);
     await queryRunner.query(`
-            DROP TABLE "group"
+            DROP TABLE "user"
         `);
     await queryRunner.query(`
-            DROP TABLE "user"
+            DROP TABLE "group"
         `);
   }
 }

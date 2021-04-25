@@ -1,4 +1,5 @@
-import { BaseEntity, Column, DeleteDateColumn, Entity, Like, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, DeleteDateColumn, Entity, Like, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Group } from '../groups/group.model';
 
 export interface OutputUser {
   id: string;
@@ -27,6 +28,9 @@ export class User extends BaseEntity implements OutputUser {
 
   @DeleteDateColumn()
   deletedDate: Date;
+
+  @ManyToMany(() => Group, (group) => group.users)
+  groups: Group[];
 
   static async getAutoSuggest(loginSubstring: string, limit: number): Promise<User[]> {
     const filtered = await this.find({
