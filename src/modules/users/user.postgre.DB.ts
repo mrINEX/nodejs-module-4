@@ -1,3 +1,4 @@
+// import { getConnection } from 'typeorm';
 import { InputUser, User } from './user.model';
 
 export const createInPostgreDB = async (properties: InputUser): Promise<User | null> => {
@@ -35,8 +36,10 @@ export const updateInPostgreDB = async (id: string, properties: InputUser): Prom
 export const deleteInPostgreDB = async (id: string): Promise<User | null> => {
   try {
     const user = await User.findOne({ id });
-    return await User.softRemove(user);
+
+    return await user.softRemove();
   } catch (err) {
+    console.log('err:', err);
     return null;
   }
 };
