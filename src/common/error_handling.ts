@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
 type InputFunction = (req: Request, res: Response) => Promise<void>;
 
@@ -17,4 +17,13 @@ export function errorHandling(fn: InputFunction) {
       console.log('error message:', error.message);
     }
   };
+}
+
+export function unhandledErrorsHandling(err: Error, req: Request, res: Response, next: NextFunction): void {
+  const unhandled = 'Internal Server Error';
+  const { message } = err;
+
+  res.status(500).send({ unhandled, message });
+
+  next();
 }
