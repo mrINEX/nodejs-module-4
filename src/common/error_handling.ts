@@ -2,9 +2,8 @@ import { Request, Response } from 'express';
 
 type InputFunction = (req: Request, res: Response) => Promise<void>;
 
-function getMainArguments(req: Request) {
-  const { body, params, query } = req;
-  return JSON.stringify({ body, params, query }, null, 2);
+function getMainArguments(req: Request, res: Response) {
+  return JSON.stringify({ req, res }, null, 2);
 }
 
 export function errorHandling(fn: InputFunction) {
@@ -13,7 +12,7 @@ export function errorHandling(fn: InputFunction) {
       await fn(req, res);
     } catch (error) {
       console.log('method name:', fn.name);
-      console.log('arguments passed to the method:', `${getMainArguments(req)}`);
+      console.log('arguments passed to the method:', `${getMainArguments(req, res)}`);
       console.log('error message:', error.message);
 
       throw error;
