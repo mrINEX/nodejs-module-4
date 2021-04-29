@@ -5,7 +5,7 @@ import registerUserModule from './modules/users/index';
 import registerGroupModule from './modules/groups/index';
 import registerUsersToGroupMiddleware from './modules/users_id_group_id/index';
 import { logHandling } from './common/log_handling';
-import { unhandledErrorsHandling } from './common/error_handling';
+import { unhandledErrorsHandling, nonExistentRoutesHandling } from './common/error_handling';
 
 const app = express();
 
@@ -24,6 +24,8 @@ app.use('/', (req, res, next) => {
 registerUserModule(app, '/users');
 registerGroupModule(app, '/groups');
 registerUsersToGroupMiddleware(app, '/users/:userId/groups/:groupId');
+
+app.all('*', nonExistentRoutesHandling);
 
 app.use(unhandledErrorsHandling);
 

@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 
 type InputFunction = (req: Request, res: Response) => Promise<void>;
 
@@ -15,15 +15,21 @@ export function errorHandling(fn: InputFunction) {
       console.log('method name:', fn.name);
       console.log('arguments passed to the method:', `${getMainArguments(req)}`);
       console.log('error message:', error.message);
+
+      throw error;
     }
   };
 }
 
-export function unhandledErrorsHandling(err: Error, req: Request, res: Response, next: NextFunction): void {
+export function unhandledErrorsHandling(err: Error, req: Request, res: Response): void {
   const unhandled = 'Internal Server Error';
   const { message } = err;
 
-  res.status(500).send({ unhandled, message });
+  res.status(500).json({ unhandled, message });
+}
 
-  next();
+export function nonExistentRoutesHandling(req: Request, res: Response): void {
+  const route = `Can't find path '${req.originalUrl}' on this server`;
+
+  res.status(404).json({ route });
 }
