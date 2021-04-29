@@ -1,5 +1,5 @@
-import * as groupsService from './group.service';
 import { Request, Response } from 'express';
+import * as groupsService from './group.service';
 
 export const postMethodHandler = async (req: Request, res: Response): Promise<void> => {
   const { name, permissions } = req.body;
@@ -9,7 +9,7 @@ export const postMethodHandler = async (req: Request, res: Response): Promise<vo
   if (group) {
     res.json({ group });
   } else {
-    res.status(403).json({ group, message: `Group with this "${name}" name exist` });
+    res.status(400).json({ group, message: `Group with this "${name}" name exist` });
   }
 };
 

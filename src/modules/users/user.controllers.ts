@@ -9,7 +9,7 @@ export const postMethodHandler = async (req: Request, res: Response): Promise<vo
   if (user) {
     res.json({ user });
   } else {
-    res.status(403).json({ user, message: `User with this "${login}" login exist` });
+    res.status(400).json({ user, message: `User with this "${login}" login exist` });
   }
 };
 

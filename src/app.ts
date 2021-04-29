@@ -1,9 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 
-import registerUserModule from './modules/users/index';
-import registerGroupModule from './modules/groups/index';
-import registerUsersToGroupMiddleware from './modules/users_id_group_id/index';
+import registerUserModule from './modules/users';
+import registerGroupModule from './modules/groups';
+import registerUsersToGroupMiddleware from './modules/users_id_group_id';
 import { logHandling } from './common/log_handling';
 import { unhandledErrorsHandling, nonExistentRoutesHandling } from './common/error_handling';
 

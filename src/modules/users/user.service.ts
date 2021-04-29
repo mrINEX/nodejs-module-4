@@ -1,4 +1,4 @@
-import * as usersRepository from './user.postgre.DB';
+import * as usersRepository from './user.DB';
 import { InputUser, User } from './user.model';
 
 export const create = (properties: InputUser): Promise<User | null> => {

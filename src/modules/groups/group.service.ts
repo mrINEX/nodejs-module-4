@@ -1,4 +1,4 @@
-import * as groupsRepository from './group.postgre.DB';
+import * as groupsRepository from './group.DB';
 import { Group, InputGroup } from './group.model';
 
 export const create = (properties: InputGroup): Promise<Group | null> => {
