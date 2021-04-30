@@ -1,4 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
+
+import './performance';
+import { performance } from 'perf_hooks';
 import { logger } from './winston';
 
 type InputFunction = (req: Request, res: Response) => Promise<void>;
@@ -11,7 +14,10 @@ function getMainArguments(req: Request) {
 export function errorHandling(fn: InputFunction) {
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+      performance.mark('start');
       await fn(req, res);
+      performance.mark('end');
+      performance.measure('start to end', 'start', 'end');
     } catch (err) {
       logger.warn(`method name: ${fn.name}`);
       logger.warn(`arguments passed to the method: ${getMainArguments(req)}`);
