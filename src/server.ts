@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import http from 'http';
 import { createConnection } from 'typeorm';
 
+import { logger } from '../src/common/winston';
 import config from './config/index';
 import { app } from './app';
 
@@ -17,9 +18,9 @@ server.listen(PORT, () => {
 });
 
 process.on('unhandledRejection', (reason) => {
-  console.log(`Unhandled Rejection: ${reason}`);
+  logger.error(`[ Unhandled Rejection ] ${reason}`);
 });
 
 process.on('uncaughtException', (err) => {
-  console.log(`Uncaught Exception: ${err.message}`);
+  logger.error(`[ Uncaught Exception ] ${err.message}`);
 });
