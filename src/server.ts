@@ -16,10 +16,10 @@ server.listen(PORT, () => {
     .catch((error) => console.log('Cannot connect: ', error));
 });
 
-process.on('uncaughtException', (err) => {
-  console.log(`Uncaught Exception: ${err.message}`);
-});
-
 process.on('unhandledRejection', (reason) => {
   console.log(`Unhandled Rejection: ${reason}`);
+});
+
+process.on('uncaughtException', (err) => {
+  console.log(`Uncaught Exception: ${err.message}`);
 });

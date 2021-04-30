@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 type InputFunction = (req: Request, res: Response) => Promise<void>;
 
@@ -8,24 +8,24 @@ function getMainArguments(req: Request) {
 }
 
 export function errorHandling(fn: InputFunction) {
-  return async (req: Request, res: Response): Promise<void> => {
+  return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       await fn(req, res);
-    } catch (error) {
+    } catch (err) {
       console.log('method name:', fn.name);
       console.log('arguments passed to the method:', `${getMainArguments(req)}`);
-      console.log('error message:', error.message);
+      console.log('error message:', err.message);
 
-      throw error;
+      next(err);
     }
   };
 }
 
-export function unhandledErrorsHandling(err: Error, req: Request, res: Response): void {
-  const unhandled = 'Internal Server Error';
-  const { message } = err;
+export function unhandledErrorsHandling(err: Error, req: Request, res: Response, next: NextFunction): void {
+  console.log(`ERROR: ${err.message}`);
 
-  res.status(500).json({ unhandled, message });
+  res.status(500).json({ message: 'Internal Server Error' });
+  next();
 }
 
 export function nonExistentRoutesHandling(req: Request, res: Response): void {
