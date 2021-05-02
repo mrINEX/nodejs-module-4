@@ -6,11 +6,6 @@ import { logger } from './winston';
 export type InputFunction = (req: Request, res: Response) => Promise<void>;
 type OutputFunction = (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
-function getMainArguments(req: Request) {
-  const { path, method, query, body, headers } = req;
-  return JSON.stringify({ path, method, query, body, headers }, null, 2);
-}
-
 export function errorHandling(fn: InputFunction): OutputFunction {
   const fnWithPerformanceObserver = createPerformanceObserver(fn);
 
@@ -19,7 +14,7 @@ export function errorHandling(fn: InputFunction): OutputFunction {
       await fnWithPerformanceObserver(req, res);
     } catch (err) {
       logger.warn(`method name: ${fn.name}`);
-      logger.warn(`arguments passed to the method: ${getMainArguments(req)}`);
+      logger.warn(`arguments passed to the method: [req]${req} [res]${res}`);
       logger.warn(`error message: ${err.message}`);
 
       next(err);
