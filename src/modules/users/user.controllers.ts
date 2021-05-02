@@ -7,9 +7,9 @@ export const postMethodHandler = async (req: Request, res: Response): Promise<vo
   const user = await usersService.create({ login, password, age });
 
   if (user) {
-    res.json({ user });
+    res.json(user);
   } else {
-    res.status(400).json({ user, message: `User with this "${login}" login exist` });
+    res.status(400).json({ message: `User with this "${login}" login exist` });
   }
 };
 
@@ -19,9 +19,9 @@ export const getMethodHandler = async (req: Request, res: Response): Promise<voi
   const user = await usersService.get(id);
 
   if (user) {
-    res.json({ user });
+    res.json(user);
   } else {
-    res.status(404).json({ user });
+    res.status(404).json({ message: 'User not found' });
   }
 };
 
@@ -39,7 +39,11 @@ export const putMethodHandler = async (req: Request, res: Response): Promise<voi
 
   const affected = await usersService.update(id, { login, password, age });
 
-  res.json({ affected });
+  if (affected) {
+    res.json({ affected });
+  } else {
+    res.status(404).json({ message: 'User not found' });
+  }
 };
 
 export const deleteMethodHandler = async (req: Request, res: Response): Promise<void> => {
@@ -48,8 +52,8 @@ export const deleteMethodHandler = async (req: Request, res: Response): Promise<
   const user = await usersService.remove(id);
 
   if (user) {
-    res.json({ user });
+    res.json(user);
   } else {
-    res.status(404).json({ user });
+    res.status(404).json({ message: 'User not found' });
   }
 };

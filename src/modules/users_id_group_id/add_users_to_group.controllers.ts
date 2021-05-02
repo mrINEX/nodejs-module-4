@@ -6,5 +6,9 @@ export const addUsersToGroupMiddleware = async (req: Request, res: Response): Pr
 
   const result = await addUsersToGroupService.addUsersToGroup(groupId, userId);
 
-  res.json({ result });
+  if (result) {
+    res.json({ result });
+  } else {
+    res.status(404).json({ message: 'User or Group not found' });
+  }
 };
