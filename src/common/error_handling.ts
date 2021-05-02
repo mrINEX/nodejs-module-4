@@ -1,23 +1,22 @@
 import { NextFunction, Request, Response } from 'express';
 
-import './performance';
-import { performance } from 'perf_hooks';
+import { createPerformanceObserver } from './performance';
 import { logger } from './winston';
 
-type InputFunction = (req: Request, res: Response) => Promise<void>;
+export type InputFunction = (req: Request, res: Response) => Promise<void>;
+type OutputFunction = (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
 function getMainArguments(req: Request) {
   const { path, method, query, body, headers } = req;
   return JSON.stringify({ path, method, query, body, headers }, null, 2);
 }
 
-export function errorHandling(fn: InputFunction) {
+export function errorHandling(fn: InputFunction): OutputFunction {
+  const fnWithPerformanceObserver = createPerformanceObserver(fn);
+
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      performance.mark('start');
-      await fn(req, res);
-      performance.mark('end');
-      performance.measure('start to end', 'start', 'end');
+      await fnWithPerformanceObserver(req, res);
     } catch (err) {
       logger.warn(`method name: ${fn.name}`);
       logger.warn(`arguments passed to the method: ${getMainArguments(req)}`);

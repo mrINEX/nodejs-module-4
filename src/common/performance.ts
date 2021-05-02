@@ -1,10 +1,21 @@
 import { performance, PerformanceObserver } from 'perf_hooks';
 
+import { InputFunction } from './error_handling';
+
 const obs = new PerformanceObserver((items) => {
   console.log('execution time:', items.getEntries()[0].duration, 'ms');
   performance.clearMarks();
 });
 obs.observe({ entryTypes: ['measure'] });
+
+export function createPerformanceObserver(fn: InputFunction): InputFunction {
+  return async (req, res) => {
+    performance.mark('start');
+    await fn(req, res);
+    performance.mark('end');
+    performance.measure('start to end', 'start', 'end');
+  };
+}
 
 // performance.mark('A');
 // (() => {
