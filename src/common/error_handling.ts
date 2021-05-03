@@ -14,7 +14,9 @@ export function errorHandling(fn: InputFunction): OutputFunction {
       await fnWithPerformanceObserver(req, res);
     } catch (err) {
       logger.warn(`method name: ${fn.name}`);
-      logger.warn(`arguments passed to the method: [req]${req} [res]${res}`);
+      logger.warn(`arguments passed to the method:`);
+      logger.log('warn', '[req]', req);
+      logger.log('warn', '[res]', res);
       logger.warn(`error message: ${err.message}`);
 
       next(err);
