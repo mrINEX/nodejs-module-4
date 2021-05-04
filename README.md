@@ -26,7 +26,14 @@
 }
 ```
 
-2. add your environments
+2. create `.env` file in root your project and add
+
+```
+  PORT=3000
+  JWT_SECRET_KEY=yousecretstring
+```
+
+3. add your environments
 
 # CLI tool 1 option
 1. **-q, --quantity**

@@ -4,6 +4,7 @@ dotenv.config();
 
 const config = {
   PORT: process.env.PORT as string,
+  JWT_SECRET_KEY: process.env.JWT_SECRET_KEY as string,
   typeORMwithURL: {
     type: process.env.TYPEORM_TYPE as 'postgres',
     url: process.env.TYPEORM_URL as string,

@@ -3,7 +3,7 @@ import http from 'http';
 import { createConnection } from 'typeorm';
 
 import { logger } from '../src/common/winston';
-import config from './config/index';
+import config from './config';
 import { app } from './app';
 
 const { PORT } = config;
