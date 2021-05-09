@@ -1,5 +1,3 @@
-## postgre SQL
-
 # Prepare
 
 1. create `ormconfig.json` file in root your project and add
