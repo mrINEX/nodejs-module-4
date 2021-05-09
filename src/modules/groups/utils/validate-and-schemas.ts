@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import Joi, { Schema, ValidationErrorItem } from 'joi';
+import { InputGroup } from '../group.model';
 
 export const schemaInputGroup = Joi.object({
   name: Joi.string().alphanum().required(),
@@ -14,7 +15,7 @@ export function errorToResponse(errors: ValidationErrorItem[]): Array<string> {
 
 export function validate(schema: Schema) {
   return (req: Request, res: Response, next: NextFunction): void => {
-    const { name, permissions } = req.body;
+    const { name, permissions } = req.body as InputGroup;
 
     const { error } = schema.validate({ name, permissions }, { abortEarly: false });
 

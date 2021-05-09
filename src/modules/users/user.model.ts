@@ -11,6 +11,9 @@ export interface OutputUser {
 
 export type InputUser = Pick<OutputUser, 'login' | 'password' | 'age'>;
 export type ToResponseUser = Pick<OutputUser, 'id' | 'login' | 'age'>;
+export type IdUser = Pick<OutputUser, 'id'>;
+
+export type IGetAutoSuggest = { loginSubstring: string; limit: number | unknown };
 
 @Entity()
 export class User extends BaseEntity implements OutputUser {

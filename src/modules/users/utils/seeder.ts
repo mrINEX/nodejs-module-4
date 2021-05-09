@@ -1,9 +1,7 @@
 import { createConnection, getConnection, getConnectionManager, QueryRunner } from 'typeorm';
 import { User } from '../user.model';
 import { randomInteger } from './random-int';
-import config from '../../../config';
 import { dropAndCreateTable } from './dropAndCreateTable';
-const { typeORM } = config;
 
 const [, , , quantity] = process.argv;
 
@@ -14,7 +12,7 @@ runSeed(validQuantity);
 export async function runSeed(quantity = 20): Promise<void> {
   const hasConnections = getConnectionManager().connections.length;
   if (!hasConnections) {
-    await createConnection(typeORM);
+    await createConnection();
   }
 
   const connection = getConnection();
@@ -40,7 +38,7 @@ export async function runSeed(quantity = 20): Promise<void> {
 
     await queryRunner.commitTransaction();
   } catch (err) {
-    console.log(`We have error, rollback changes we made. ${err}`);
+    console.log(`Error, rollback changes we made. ${err}`);
     await queryRunner.rollbackTransaction();
   } finally {
     console.log('Seed successfully.');

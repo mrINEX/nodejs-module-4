@@ -3,7 +3,9 @@ import { InputUser, User } from './user.model';
 
 export const createInDB = async (properties: InputUser): Promise<User | null> => {
   const userExist = await User.findOne({ login: properties.login });
-  if (userExist) return null;
+  if (userExist) {
+    return null;
+  }
 
   const user = new User();
   Object.assign(user, properties);
@@ -12,7 +14,7 @@ export const createInDB = async (properties: InputUser): Promise<User | null> =>
 
 export const getByIdDB = async (id: string): Promise<User | null> => {
   try {
-    return await User.findOne({ id });
+    return await User.findOneOrFail({ id });
   } catch (err) {
     return null;
   }

@@ -1,5 +1,6 @@
 import { NextFunction, Response, Request } from 'express';
 import Joi, { Schema, ValidationErrorItem } from 'joi';
+import { InputUser, IGetAutoSuggest } from '../user.model';
 
 export const schemaInputUser = Joi.object({
   login: Joi.string().required(),
@@ -20,7 +21,7 @@ export function errorToResponse(errors: ValidationErrorItem[]): Array<string> {
 
 export function validateBody(schema: Schema) {
   return (req: Request, res: Response, next: NextFunction): void => {
-    const { login, password, age } = req.body;
+    const { login, password, age } = req.body as InputUser;
 
     const { error } = schema.validate({ login, password, age }, { abortEarly: false });
 
@@ -34,7 +35,7 @@ export function validateBody(schema: Schema) {
 
 export function validateQuery(schema: Schema) {
   return (req: Request, res: Response, next: NextFunction): void => {
-    const { loginSubstring, limit } = req.query;
+    const { loginSubstring, limit } = req.query as IGetAutoSuggest;
 
     const { error } = schema.validate({ loginSubstring, limit }, { abortEarly: false });
 

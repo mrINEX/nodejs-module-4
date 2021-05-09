@@ -2,7 +2,9 @@ import { InputGroup, Group } from './group.model';
 
 export const createInDB = async (properties: InputGroup): Promise<Group | null> => {
   const groupExist = await Group.findOne({ name: properties.name });
-  if (groupExist) return null;
+  if (groupExist) {
+    return null;
+  }
 
   const group = new Group();
   Object.assign(group, properties);
@@ -11,12 +13,8 @@ export const createInDB = async (properties: InputGroup): Promise<Group | null> 
 
 export const getByIdDB = async (id: string): Promise<Group | null> => {
   try {
-    const group = await Group.findOne({ id });
-    if (group) {
-      return group;
-    } else {
-      return null;
-    }
+    const group = await Group.findOneOrFail({ id });
+    return group;
   } catch (err) {
     return null;
   }

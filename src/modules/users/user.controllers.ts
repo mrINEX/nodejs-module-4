@@ -1,8 +1,9 @@
 import * as usersService from './user.service';
 import { Request, Response } from 'express';
+import { InputUser, IdUser, IGetAutoSuggest } from './user.model';
 
 export const postMethodHandler = async (req: Request, res: Response): Promise<void> => {
-  const { login, password, age } = req.body;
+  const { login, password, age } = req.body as InputUser;
 
   const user = await usersService.create({ login, password, age });
 
@@ -14,7 +15,7 @@ export const postMethodHandler = async (req: Request, res: Response): Promise<vo
 };
 
 export const getMethodHandler = async (req: Request, res: Response): Promise<void> => {
-  const { id } = req.params;
+  const { id } = req.params as IdUser;
 
   const user = await usersService.get(id);
 
@@ -26,7 +27,7 @@ export const getMethodHandler = async (req: Request, res: Response): Promise<voi
 };
 
 export const getAllMethodHandler = async (req: Request, res: Response): Promise<void> => {
-  const { loginSubstring, limit } = req.query;
+  const { loginSubstring, limit } = req.query as IGetAutoSuggest;
 
   const users = await usersService.getAll(loginSubstring as string, +limit as number);
 
@@ -34,8 +35,8 @@ export const getAllMethodHandler = async (req: Request, res: Response): Promise<
 };
 
 export const putMethodHandler = async (req: Request, res: Response): Promise<void> => {
-  const { login, password, age } = req.body;
-  const { id } = req.params;
+  const { login, password, age } = req.body as InputUser;
+  const { id } = req.params as IdUser;
 
   const affected = await usersService.update(id, { login, password, age });
 
@@ -47,7 +48,7 @@ export const putMethodHandler = async (req: Request, res: Response): Promise<voi
 };
 
 export const deleteMethodHandler = async (req: Request, res: Response): Promise<void> => {
-  const { id } = req.params;
+  const { id } = req.params as IdUser;
 
   const user = await usersService.remove(id);
 
