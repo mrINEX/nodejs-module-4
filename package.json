@@ -5,6 +5,7 @@
   "main": "./dist/server.js",
   "scripts": {
     "start": "tsc && node ./dist/server.js",
+    "test": "jest",
     "server": "nodemon ./src/server.ts",
     "orm:revert:migration": "npm run typeorm migration:revert",
     "orm:create:migration": "npm run typeorm migration:create -- -n create",
@@ -30,6 +31,7 @@
     "@commitlint/prompt-cli": "^12.1.1",
     "@types/cors": "^2.8.10",
     "@types/express": "^4.17.11",
+    "@types/jest": "^26.0.23",
     "@types/jsonwebtoken": "^8.5.1",
     "@types/node": "^14.14.37",
     "@types/uuid": "^8.3.0",
@@ -41,6 +43,7 @@
     "jest": "^26.6.3",
     "nodemon": "^2.0.7",
     "prettier": "2.2.1",
+    "ts-jest": "^26.5.6",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.3"
   },
