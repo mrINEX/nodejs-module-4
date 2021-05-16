@@ -84,5 +84,21 @@ describe('user controllers testing', () => {
       mockCreate.mockReset();
       mockCreate.mockRestore();
     });
+  });
+
+  describe('GET by ALL method:', () => {
+    test('users were returned:', async () => {
+      const users = [{} as User];
+  
+      const mockCreate = jest.spyOn(usersService, 'getAll');
+      mockCreate.mockImplementation(() => Promise.resolve(users));
+  
+      await api.getAllMethodHandler(mock.request, mock.response);
+  
+      expect(mock.response.json.mock.calls[0][0].users).toBe(users);
+      
+      mockCreate.mockReset();
+      mockCreate.mockRestore();
+    });
   })
 });
