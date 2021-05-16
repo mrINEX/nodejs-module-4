@@ -1,45 +1,88 @@
 import { Request, Response } from 'express';
-import * as api from '../src/modules/users/user.controllers';
 import { User } from '../src/modules/users/user.model';
+import * as api from '../src/modules/users/user.controllers';
 import * as usersService from '../src/modules/users/user.service';
 
-const mock = {
-  request: {
-    body: { login: 'robo', password: 'passrobo', age: 100 }
-  } as Request,
-  response: {
-    json: jest.fn(),
-    status: jest.fn(() => mock.response)
-  } as unknown as Response
-};
+function createData() {
+  return {
+    request: {
+      body: {},
+      params: {},
+      query: {},
+    } as Request,
+    response: {
+      json: jest.fn(),
+      status: jest.fn(() => mock.response)
+    } as unknown as Response
+  }
+}
+
+let mock;
+
+beforeEach(() => {
+  mock = createData();
+});
 
 describe('user controllers testing', () => {
-  test('if the user was not created and already exists:', async () => {
-    const mockCreate = jest.spyOn(usersService, 'create');
-    mockCreate.mockImplementation(() => Promise.resolve(null));
-
-    await api.postMethodHandler(mock.request, mock.response);
-
-    expect(mock.response.status.mock.calls[0][0]).toBe(400);
-    expect(mock.response.json.mock.calls[0][0]).toStrictEqual(
-      { message: `User with this "${mock.request.body.login}" login exist` }
-    );
-
-    mockCreate.mockReset();
-    mockCreate.mockRestore();
+  describe('POST method:', () => {
+    test('if user was not created and already exists:', async () => {
+      const mockCreate = jest.spyOn(usersService, 'create');
+      mockCreate.mockImplementation(() => Promise.resolve(null));
+  
+      await api.postMethodHandler(mock.request, mock.response);
+  
+      expect(mock.response.status.mock.calls[0][0]).toBe(400);
+      expect(mock.response.json.mock.calls[0][0]).toStrictEqual(
+        { message: `User with this "${mock.request.body.login}" login exist` }
+      );
+  
+      mockCreate.mockReset();
+      mockCreate.mockRestore();
+    });
+  
+    test('if user was created:', async () => {
+      const user = {} as User;
+  
+      const mockCreate = jest.spyOn(usersService, 'create');
+      mockCreate.mockImplementation(() => Promise.resolve(user));
+  
+      await api.postMethodHandler(mock.request, mock.response);
+  
+      expect(mock.response.json.mock.calls[0][0]).toBe(user);
+      
+      mockCreate.mockReset();
+      mockCreate.mockRestore();
+    });
   });
 
-  test('if the user was created:', async () => {
-    const user = {} as User;
-
-    const mockCreate = jest.spyOn(usersService, 'create');
-    mockCreate.mockImplementation(() => Promise.resolve(user));
-
-    await api.postMethodHandler(mock.request, mock.response);
-
-    expect(mock.response.json.mock.calls[1][0]).toBe(user);
-    
-    mockCreate.mockReset();
-    mockCreate.mockRestore();
-  });
+  describe('GET by ID method:', () => {
+    test('if user with this ID does not exist:', async () => {
+      const mockCreate = jest.spyOn(usersService, 'get');
+      mockCreate.mockImplementation(() => Promise.resolve(null));
+  
+      await api.getMethodHandler(mock.request, mock.response);
+  
+      expect(mock.response.status.mock.calls[0][0]).toBe(404);
+      expect(mock.response.json.mock.calls[0][0]).toStrictEqual(
+        { message: 'User not found' }
+      );
+  
+      mockCreate.mockReset();
+      mockCreate.mockRestore();
+    });
+  
+    test('if user with this ID exists:', async () => {
+      const user = {} as User;
+  
+      const mockCreate = jest.spyOn(usersService, 'get');
+      mockCreate.mockImplementation(() => Promise.resolve(user));
+  
+      await api.getMethodHandler(mock.request, mock.response);
+  
+      expect(mock.response.json.mock.calls[0][0]).toBe(user);
+      
+      mockCreate.mockReset();
+      mockCreate.mockRestore();
+    });
+  })
 });
