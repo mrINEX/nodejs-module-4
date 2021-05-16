@@ -1,26 +1,23 @@
 import { Request, Response } from 'express';
+
 import { User } from '../src/modules/users/user.model';
 import * as api from '../src/modules/users/user.controllers';
 import * as usersService from '../src/modules/users/user.service';
 
-function createData(): { request: Request, response: Pick<Response, 'json' | 'status'> } {
-  return {
-    request: {
-      body: {},
-      params: {},
-      query: {},
-    } as Request,
-    response: {
-      json: jest.fn(),
-      status: jest.fn(() => mock.response)
-    } as Pick<Response, 'json' | 'status'>
+const mock = {
+  request: {
+    body: {},
+    params: {},
+    query: {},
+  } as Request,
+  response: {
+    json: jest.fn(),
+    status: jest.fn().mockReturnThis()
   }
-}
-
-let mock;
+};
 
 beforeEach(() => {
-  mock = createData();
+  jest.clearAllMocks();
 });
 
 describe('user controllers testing', () => {
@@ -29,7 +26,7 @@ describe('user controllers testing', () => {
       const mockCreate = jest.spyOn(usersService, 'create');
       mockCreate.mockImplementation(() => Promise.resolve(null));
   
-      await api.postMethodHandler(mock.request, mock.response);
+      await api.postMethodHandler(mock.request, mock.response as unknown as Response);
   
       expect(mock.response.status.mock.calls[0][0]).toBe(400);
       expect(mock.response.json.mock.calls[0][0].message).toStrictEqual(
@@ -43,7 +40,7 @@ describe('user controllers testing', () => {
       const mockCreate = jest.spyOn(usersService, 'create');
       mockCreate.mockImplementation(() => Promise.resolve(user));
   
-      await api.postMethodHandler(mock.request, mock.response);
+      await api.postMethodHandler(mock.request, mock.response as unknown as Response);
   
       expect(mock.response.json.mock.calls[0][0]).toBe(user);
     });
@@ -54,7 +51,7 @@ describe('user controllers testing', () => {
       const mockCreate = jest.spyOn(usersService, 'get');
       mockCreate.mockImplementation(() => Promise.resolve(null));
   
-      await api.getMethodHandler(mock.request, mock.response);
+      await api.getMethodHandler(mock.request, mock.response as unknown as Response);
   
       expect(mock.response.status.mock.calls[0][0]).toBe(404);
       expect(mock.response.json.mock.calls[0][0].message).toStrictEqual('User not found');
@@ -66,7 +63,7 @@ describe('user controllers testing', () => {
       const mockCreate = jest.spyOn(usersService, 'get');
       mockCreate.mockImplementation(() => Promise.resolve(user));
   
-      await api.getMethodHandler(mock.request, mock.response);
+      await api.getMethodHandler(mock.request, mock.response as unknown as Response);
   
       expect(mock.response.json.mock.calls[0][0]).toBe(user);
     });
@@ -79,7 +76,7 @@ describe('user controllers testing', () => {
       const mockCreate = jest.spyOn(usersService, 'getAll');
       mockCreate.mockImplementation(() => Promise.resolve(users));
   
-      await api.getAllMethodHandler(mock.request, mock.response);
+      await api.getAllMethodHandler(mock.request, mock.response as unknown as Response);
   
       expect(mock.response.json.mock.calls[0][0].users).toBe(users);
     });
@@ -90,7 +87,7 @@ describe('user controllers testing', () => {
       const mockCreate = jest.spyOn(usersService, 'update');
       mockCreate.mockImplementation(() => Promise.resolve(0));
   
-      await api.putMethodHandler(mock.request, mock.response);
+      await api.putMethodHandler(mock.request, mock.response as unknown as Response);
   
       expect(mock.response.status.mock.calls[0][0]).toBe(404);
       expect(mock.response.json.mock.calls[0][0].message).toStrictEqual('User not found');
@@ -100,7 +97,7 @@ describe('user controllers testing', () => {
       const mockCreate = jest.spyOn(usersService, 'update');
       mockCreate.mockImplementation(() => Promise.resolve(1));
   
-      await api.putMethodHandler(mock.request, mock.response);
+      await api.putMethodHandler(mock.request, mock.response as unknown as Response);
   
       expect(mock.response.json.mock.calls[0][0].affected).toBeGreaterThan(0);
     });
@@ -111,7 +108,7 @@ describe('user controllers testing', () => {
       const mockCreate = jest.spyOn(usersService, 'remove');
       mockCreate.mockImplementation(() => Promise.resolve(null));
   
-      await api.deleteMethodHandler(mock.request, mock.response);
+      await api.deleteMethodHandler(mock.request, mock.response as unknown as Response);
   
       expect(mock.response.status.mock.calls[0][0]).toBe(404);
       expect(mock.response.json.mock.calls[0][0].message).toStrictEqual('User not found');
@@ -123,7 +120,7 @@ describe('user controllers testing', () => {
       const mockCreate = jest.spyOn(usersService, 'remove');
       mockCreate.mockImplementation(() => Promise.resolve(user));
   
-      await api.deleteMethodHandler(mock.request, mock.response);
+      await api.deleteMethodHandler(mock.request, mock.response as unknown as Response);
   
       expect(mock.response.json.mock.calls[0][0]).toBe(user);
     });
