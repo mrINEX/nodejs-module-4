@@ -1,32 +1,48 @@
 import { Request, Response } from 'express';
+// import { request, response } from 'express';
 
-import { request, response } from 'express';
 import { User } from '../src/modules/users/user.model';
 import * as api from '../src/modules/users/user.controllers';
-import * as usersService from '../src/modules/users/user.service';
 
 // const json = response.json as jest.Mocked<typeof response.json>;
 const user = {} as User;
+const users = [{} as User];
 
 jest.mock('../src/modules/users/user.service', () => {
   return {
-    create: jest.fn((data) => {
-      const { password } = data;
-      if (password === 'unhappy') {
+    create: ({ password : testIs }) => {
+      if (testIs === 'unhappy') {
         return Promise.resolve(null);
       }
-      if (password === 'happy') {
+      if (testIs === 'happy') {
         return Promise.resolve(user);
       }
-    }),
-    get: jest.fn((id) => {
-      if (id === 'unhappy') {
+    },
+    get: (testIs) => {
+      if (testIs === 'unhappy') {
         return Promise.resolve(null);
       }
-      if (id === 'happy') {
+      if (testIs === 'happy') {
         return Promise.resolve(user);
       }
-    })
+    },
+    getAll: () => Promise.resolve(users),
+    update: (testIs) => {
+      if (testIs === 'unhappy') {
+        return Promise.resolve(0);
+      }
+      if (testIs === 'happy') {
+        return Promise.resolve(1);
+      }
+    },
+    remove: (testIs) => {
+      if (testIs === 'unhappy') {
+        return Promise.resolve(null);
+      }
+      if (testIs === 'happy') {
+        return Promise.resolve(user);
+      }
+    },
   };
 });
 
@@ -49,8 +65,6 @@ beforeEach(() => {
 describe('user controllers testing', () => {
   describe('POST method:', () => {
     test('if user was not created and already exists:', async () => {
-      // const mockCreate = jest.spyOn(usersService, 'create');
-      // mockCreate.mockImplementation(() => Promise.resolve(null));
       mock.request.body.password = 'unhappy';
       await api.postMethodHandler(mock.request, mock.response as unknown as Response);
   
@@ -61,8 +75,6 @@ describe('user controllers testing', () => {
     });
   
     test('if user was created:', async () => {
-      // const mockCreate = jest.spyOn(usersService, 'create');
-      // mockCreate.mockImplementation(() => Promise.resolve(user));
       mock.request.body.password = 'happy';
       await api.postMethodHandler(mock.request, mock.response as unknown as Response);
   
@@ -72,8 +84,6 @@ describe('user controllers testing', () => {
 
   describe('GET by ID method:', () => {
     test('if user with ID does not exist:', async () => {
-      // const mockCreate = jest.spyOn(usersService, 'get');
-      // mockCreate.mockImplementation(() => Promise.resolve(null));
       mock.request.params.id = 'unhappy';
       await api.getMethodHandler(mock.request, mock.response as unknown as Response);
   
@@ -82,8 +92,6 @@ describe('user controllers testing', () => {
     });
   
     test('if user with ID exists:', async () => {
-      // const mockCreate = jest.spyOn(usersService, 'get');
-      // mockCreate.mockImplementation(() => Promise.resolve(user));
       mock.request.params.id = 'happy';
       await api.getMethodHandler(mock.request, mock.response as unknown as Response);
   
@@ -91,60 +99,45 @@ describe('user controllers testing', () => {
     });
   });
 
-  // describe('GET by ALL method:', () => {
-  //   test('users were returned:', async () => {
-  //     const users = [{} as User];
+  describe('GET by ALL method:', () => {
+    test('users were returned:', async () => {
+      await api.getAllMethodHandler(mock.request, mock.response as unknown as Response);
   
-  //     const mockCreate = jest.spyOn(usersService, 'getAll');
-  //     mockCreate.mockImplementation(() => Promise.resolve(users));
-  
-  //     await api.getAllMethodHandler(mock.request, mock.response as unknown as Response);
-  
-  //     expect(mock.response.json.mock.calls[0][0].users).toBe(users);
-  //   });
-  // })
+      expect(mock.response.json.mock.calls[0][0].users).toBe(users);
+    });
+  })
 
-  // describe('PUT method:', () => {
-  //   test('if user not updated:', async () => {
-  //     const mockCreate = jest.spyOn(usersService, 'update');
-  //     mockCreate.mockImplementation(() => Promise.resolve(0));
+  describe('PUT method:', () => {
+    test('if user not updated:', async () => {
+      mock.request.params.id = 'unhappy';
+      await api.putMethodHandler(mock.request, mock.response as unknown as Response);
   
-  //     await api.putMethodHandler(mock.request, mock.response as unknown as Response);
+      expect(mock.response.status.mock.calls[0][0]).toBe(404);
+      expect(mock.response.json.mock.calls[0][0].message).toStrictEqual('User not found');
+    });
   
-  //     expect(mock.response.status.mock.calls[0][0]).toBe(404);
-  //     expect(mock.response.json.mock.calls[0][0].message).toStrictEqual('User not found');
-  //   });
+    test('if user updated:', async () => {
+      mock.request.params.id = 'happy';
+      await api.putMethodHandler(mock.request, mock.response as unknown as Response);
   
-  //   test('if user updated:', async () => {
-  //     const mockCreate = jest.spyOn(usersService, 'update');
-  //     mockCreate.mockImplementation(() => Promise.resolve(1));
-  
-  //     await api.putMethodHandler(mock.request, mock.response as unknown as Response);
-  
-  //     expect(mock.response.json.mock.calls[0][0].affected).toBeGreaterThan(0);
-  //   });
-  // });
+      expect(mock.response.json.mock.calls[0][0].affected).toBeGreaterThan(0);
+    });
+  });
 
-  // describe('DELETE method:', () => {
-  //   test('if user does not exist:', async () => {
-  //     const mockCreate = jest.spyOn(usersService, 'remove');
-  //     mockCreate.mockImplementation(() => Promise.resolve(null));
+  describe('DELETE method:', () => {
+    test('if user does not exist:', async () => {
+      mock.request.params.id = 'unhappy';
+      await api.deleteMethodHandler(mock.request, mock.response as unknown as Response);
   
-  //     await api.deleteMethodHandler(mock.request, mock.response as unknown as Response);
+      expect(mock.response.status.mock.calls[0][0]).toBe(404);
+      expect(mock.response.json.mock.calls[0][0].message).toStrictEqual('User not found');
+    });
   
-  //     expect(mock.response.status.mock.calls[0][0]).toBe(404);
-  //     expect(mock.response.json.mock.calls[0][0].message).toStrictEqual('User not found');
-  //   });
+    test('if user exists:', async () => {
+      mock.request.params.id = 'happy';
+      await api.deleteMethodHandler(mock.request, mock.response as unknown as Response);
   
-  //   test('if user exists:', async () => {
-  //     const user = {} as User;
-  
-  //     const mockCreate = jest.spyOn(usersService, 'remove');
-  //     mockCreate.mockImplementation(() => Promise.resolve(user));
-  
-  //     await api.deleteMethodHandler(mock.request, mock.response as unknown as Response);
-  
-  //     expect(mock.response.json.mock.calls[0][0]).toBe(user);
-  //   });
-  // });
+      expect(mock.response.json.mock.calls[0][0]).toBe(user);
+    });
+  });
 });
